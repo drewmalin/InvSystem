@@ -5,6 +5,7 @@
         Num: {{item.num}}
         <br>
         Quantity: {{item.quantity_on_hand}}
+        <a href="/item/edit/{{item.id}}">Edit</a>
     {% else %}
         <p>Something went wrong!</p>
     {% endif %}

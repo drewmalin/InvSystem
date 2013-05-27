@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% block body %}
-    <form action="/item/" method="POST">
+    {% if item %}
+    <form action="/item/edit/{{item.id}}" method="POST">
+        <dl>
+            <dt> Name:
+            <dd> <input name="name" type="text" size="40" value={{item.name}} />
+            <dt> Num:
+            <dd> <input name="num" type="text" size="40" value={{item.num}} />
+            <dt> Quantity:
+            <dd> <input name="quantity" type="number" size="40" value={{item.quantity_on_hand}} />
+            <br><br>
+            <dd> <input name="save" type="submit" value="Save" />
+        </dl>
+    </form>
+    {% else %}
+    <form action="/item/edit/" method="POST">
         <dl>
             <dt> Name: 
             <dd> <input name="name" type="text" size="40" />
@@ -10,5 +24,7 @@
             <dd> <input name="quantity" type="number" size="40" />
             <br><br>
             <dd><input name="save" type="submit" value="Save" />
+        </dl>
     </form>
+    {% endif %}
 {% endblock %}
