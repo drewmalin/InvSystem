@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+    {% if item %}
+        <h1>{{item.name}}</h1>
+        Num: {{item.num}}
+        <br>
+        Quantity: {{item.quantity_on_hand}}
+    {% else %}
+        <p>Something went wrong!</p>
+    {% endif %}
+{% endblock %}

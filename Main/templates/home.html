@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+    <form action="/" method="POST">
+        Search: <input name="search" type="text" size="100" />
+        <input name="search" type="submit" value="Submit" />
+    </form>
+    <br>
+    <a href="/item/">New Item</a>
+    <br>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Num</th>
+            <th>Quantity</th>
+        </tr>
+        {% for item in items %}
+            <tr>
+                <td><a href="/item/{{item.id}}">{{ item.name }}</a></td>
+                <td>{{ item.num }}</td>
+                <td>{{ item.quantity_on_hand }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

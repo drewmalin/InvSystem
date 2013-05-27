@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+    <form action="/item/" method="POST">
+        <dl>
+            <dt> Name: 
+            <dd> <input name="name" type="text" size="40" />
+            <dt> Num: 
+            <dd> <input name="num" type="text" size="40" />
+            <dt> Quantity: 
+            <dd> <input name="quantity" type="number" size="40" />
+            <br><br>
+            <dd><input name="save" type="submit" value="Save" />
+    </form>
+{% endblock %}

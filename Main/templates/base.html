@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>InvSystem</title>
+    </head>
+    <body>
+        <h1>InvSystem</h1>
+        <!-- Display system messages -->
+        {% for message in get_flashed_messages() %}
+            {{ message }}
+        {% endfor %}
+        <!-- Spot for rendering primary block -->
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>
