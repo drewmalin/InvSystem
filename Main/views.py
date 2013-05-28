@@ -9,7 +9,16 @@ class Index(flask.views.MethodView):
         # item = Item('test 1', '1', 10, 1, 1)
         # session.add(item)
         # session.commit()
+        
+        ## Temp ##
+        vendor = Vendor('test_vendor!')
+        session.add(vendor)
+        #offer = Offer(100, 10000)
+        #session.add(offer)
+        session.commit()
         items = session.query(Item)
+        ## #### ##
+
         return flask.render_template('home.html', items = items)
     def post(self):
         if flask.request.form['search'] == "":
@@ -62,6 +71,8 @@ class ItemMod(flask.views.MethodView):
                     flask.request.form['num'],
                     flask.request.form['quantity'],
                     1, 1)
+        vendor = session.query(Vendor).get(1)
+        vendor.items.append(item)
         session.add(item)
         session.commit()
         

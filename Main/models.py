@@ -1,5 +1,6 @@
 from util           import Base
 from sqlalchemy     import Column, Integer, String, ForeignKey, Float
+from sqlalchemy.orm import relationship, backref
 
 class Item(Base):
     __tablename__ = 'Item'
@@ -9,8 +10,8 @@ class Item(Base):
     quantity_on_hand 	= Column(Integer)
     reorder_quantity	= Column(Integer)
     reorder_point		= Column(Integer)
-#    vendor 				= relationship('Vendor', backref='item')
-#    offer 				= relationship('Offer', backref='item')
+    vendor_id			= Column(Integer, ForeignKey('Vendor.id'))
+    offer 				= relationship('Offer', backref='item')
     
     def __init__(self, name, num, quantity_on_hand, reorder_quantity, reorder_point):
         self.name 				= name
@@ -20,12 +21,12 @@ class Item(Base):
         self.reorder_point		= reorder_point
 
 class Vendor(Base):
-    __tablename__ = 'Primary Vendor'
+    __tablename__ = 'Vendor'
     id          = Column(Integer, primary_key = True)
-    item_id		= Column(Integer, ForeignKey('Item.id'))
+    items		= relationship('Item', backref='vendor')
     name 		= Column(String(100))
     
-    def __init__(self):
+    def __init__(self, name):
         self.name 		= name
 
 class Offer(Base):
@@ -35,7 +36,7 @@ class Offer(Base):
 	quantity 	= Column(Integer)
 	price 		= Column(Float)
     
-	def __int__(self):
+	def __int__(self, quantity, price):
 		self.quantity 	= quantity
 		self.price 		= price
 
@@ -44,5 +45,5 @@ class UOM(Base):
     id          = Column(Integer, primary_key = True)
     name		= Column(String(100))
     
-    def __init__(self):
+    def __init__(self, name):
         self.name 		= name

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>InvSystem</title>
+        <title>Inventory System</title>
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+
     </head>
     <body>
-        <h1>InvSystem</h1>
+        <h1>Inventory System</h1>
         <!-- Display system messages -->
         {% for message in get_flashed_messages() %}
             {{ message }}

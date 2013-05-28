@@ -1,11 +1,28 @@
 {% extends "base.html" %}
 {% block body %}
+ <form class = "form-inline" action="/" method="POST">
+        Search: <input name="search" type="text" size="100" />
+        <input name="search" class = "btn" type="submit" value="Submit" />
+    </form>
     {% if item %}
+    <br>
+    <a class = "btn" href="/">Home</a>
+    <a class = "btn" href="#">History</a>
+    <div class = "container">
         <h1>{{item.name}}</h1>
-        Num: {{item.num}}
-        <br>
-        Quantity: {{item.quantity_on_hand}}
-        <a href="/item/edit/{{item.id}}">Edit</a>
+         <br><br>
+        Catalog Number: {{item.num}}
+        <br><br>
+        Quantity on Hand: {{item.quantity_on_hand}}
+        <br><br>
+        Reorder Point: {{item.reorder_point}}
+        <br><br>
+        Reorder Quantity: {{item.reorder_quantity}}
+        <br><br>
+        Vender: {{item.vendor}}
+        <br><br>
+        <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
+    </div>
     {% else %}
         <p>Something went wrong!</p>
     {% endif %}

@@ -7,24 +7,40 @@
             <dd> <input name="name" type="text" size="40" value={{item.name}} />
             <dt> Num:
             <dd> <input name="num" type="text" size="40" value={{item.num}} />
-            <dt> Quantity:
-            <dd> <input name="quantity" type="number" size="40" value={{item.quantity_on_hand}} />
+            <dt> Quantity on hand:
+            <dd> <input name="quantity" type="number" size="40" value={{item.quantity_on_hand}}  />
+            <dt> Reorder Point:
+            <dd> <input name="quantity" type="number" size="40" value={{item.reorder_point}} />
+            <dt> Reorder Quantity:
+            <dd> <input name="quantity" type="number" size="40" value={{item.reorder_quantity}} />
+            <dt> Vendor:
+            <dd> <input name="vendor" type="name" size="40" value={{item.vendor}} />
             <br><br>
-            <dd> <input name="save" type="submit" value="Save" />
+            <dd> <input class = "btn" name="save" type="submit" value="Save" />
+            <a class = "btn" href="/item/{{item.id}}">Cancel</a>
         </dl>
+
     </form>
     {% else %}
     <form action="/item/edit/" method="POST">
         <dl>
             <dt> Name: 
             <dd> <input name="name" type="text" size="40" />
-            <dt> Num: 
+            <dt> Catalog Number: 
             <dd> <input name="num" type="text" size="40" />
-            <dt> Quantity: 
+            <dt> Quantity on Hand: 
             <dd> <input name="quantity" type="number" size="40" />
+            <dt> Reorder Point:
+            <dd> <input name="quantity" type="number" size="40" />
+            <dt> Reorder Quantity:
+            <dd> <input name="quantity" type="number" size="40" />
+            <dt> Vendor:
+            <dd> <input name="vendor" type="name" size="40" />
             <br><br>
-            <dd><input name="save" type="submit" value="Save" />
+            <dd><input class = "btn" name="save" type="submit" value="Save" />
+            <a class = "btn" href="/">Cancel</a>
         </dl>
+
     </form>
     {% endif %}
 {% endblock %}
