@@ -4,17 +4,17 @@
     <form action="/item/edit/{{item.id}}" method="POST">
         <dl>
             <dt> Name:
-            <dd> <input name="name" type="text" size="40" value={{item.name}} />
+            <dd> <input name="name" type="text" size="40" value={{item.snapshots[0].name}} />
             <dt> Num:
-            <dd> <input name="num" type="text" size="40" value={{item.num}} />
+            <dd> <input name="num" type="text" size="40" value={{item.snapshots[0].num}} />
             <dt> Quantity on hand:
-            <dd> <input name="quantity" type="number" size="40" value={{item.quantity_on_hand}}  />
+            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].quantity_on_hand}}  />
             <dt> Reorder Point:
-            <dd> <input name="quantity" type="number" size="40" value={{item.reorder_point}} />
+            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].reorder_point}} />
             <dt> Reorder Quantity:
-            <dd> <input name="quantity" type="number" size="40" value={{item.reorder_quantity}} />
+            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].reorder_quantity}} />
             <dt> Vendor:
-            <dd> <input name="vendor" type="name" size="40" value={{item.vendor}} />
+            <dd> <input name="vendor" type="name" size="40" value={{item.snapshots[0].primary_vendor}} />
             <br><br>
             <dd> <input class = "btn" name="save" type="submit" value="Save" />
             <a class = "btn" href="/item/{{item.id}}">Cancel</a>

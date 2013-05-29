@@ -7,19 +7,19 @@
     {% if item %}
     <br>
     <a class = "btn" href="/">Home</a>
-    <a class = "btn" href="#">History</a>
+    <a class = "btn" href="/item/history/{{item.id}}">History</a>
     <div class = "container">
-        <h1>{{item.name}}</h1>
+        <h1>{{item.snapshots[0].name}}</h1>
          <br><br>
-        Catalog Number: {{item.num}}
+        Catalog Number: {{item.snapshots[0].num}}
         <br><br>
-        Quantity on Hand: {{item.quantity_on_hand}}
+        Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}
         <br><br>
-        Reorder Point: {{item.reorder_point}}
+        Reorder Point: {{item.snapshots[0].reorder_point}}
         <br><br>
-        Reorder Quantity: {{item.reorder_quantity}}
+        Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
         <br><br>
-        Vender: {{item.vendor}}
+        Vendor: {{item.snapshots[0].primary_vendor}}
         <br><br>
         <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
     </div>

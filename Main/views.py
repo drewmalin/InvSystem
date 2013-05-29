@@ -36,6 +36,11 @@ class ItemView(flask.views.MethodView):
         else:
             return flask.redirect(flask.url_for('index'))
 
+class ItemHistory(flask.views.MethodView):
+    def get(self, item_id):
+        item = session.query(Item).get(item_id)
+        return flask.render_template('item_history.html', item = item)
+
 class ItemMod(flask.views.MethodView):
     def get(self, item_id):
         if item_id != None:
@@ -67,12 +72,14 @@ class ItemMod(flask.views.MethodView):
         if error > 0:
             return flask.redirect(flask.url_for('item'))
         
-        item = Item(flask.request.form['name'],
-                    flask.request.form['num'],
-                    flask.request.form['quantity'],
-                    1, 1)
+        item = Item()
+        itemSnapshot = ItemSnapshot(flask.request.form['name'],
+                                    flask.request.form['num'],
+                                    flask.request.form['quantity'],
+                                    1, 1)
         vendor = session.query(Vendor).get(1)
-        vendor.items.append(item)
+        itemSnapshot.primary_vendor = vendor
+        item.snapshots.append(itemSnapshot)
         session.add(item)
         session.commit()
         
@@ -89,10 +96,12 @@ class ItemMod(flask.views.MethodView):
             error = 1
         if error > 0:
             return flask.redirect(flask.url_for('item'))
-        #session.query(Item).get(item_id).update({'name':flask.request.form['name'], 'num':flask.request.form['num'], 'quantity_on_hand':flask.request.form['quantity']})
+        
         item = session.query(Item).get(item_id)
-        item.name = flask.request.form['name']
-        item.num = flask.request.form['num']
-        item.quantity_on_hand = flask.request.form['quantity']
-        session.add(item)
+        itemSnapshot = ItemSnapshot(flask.request.form['name'],
+                                    flask.request.form['num'],
+                                    flask.request.form['quantity'],
+                                    1, 1)
+        item.snapshots.append(itemSnapshot)
         session.commit()
+

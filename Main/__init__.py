@@ -25,6 +25,9 @@ app.add_url_rule('/item/edit/',
 app.add_url_rule('/item/edit/<int:item_id>',
                 view_func = ItemMod.as_view('item_mod'),
                 methods = ['GET', 'POST'])
+app.add_url_rule('/item/history/<int:item_id>',
+                view_func = ItemHistory.as_view('item_history'),
+                methods = ['GET'])
 
 from models import *
 Base.metadata.create_all(engine)

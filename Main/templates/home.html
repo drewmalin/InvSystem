@@ -30,12 +30,12 @@
         </tr>
         {% for item in items %}
             <tr>
-                <td><a href="/item/{{item.id}}">{{ item.name }}</a></td>
-                <td>{{ item.num }}</td>
-                <td>{{ item.quantity_on_hand }}</td>
-                <td>{{ item.reorder_point}}</td>
-                <td>{{ item.reorder_quantity}}</td>
-                <td>{{ item.vendor.name }}</td>
+                <td><a href="/item/{{item.id}}">{{ item.snapshots[0].name }}</a></td>
+                <td>{{ item.snapshots[0].num }}</td>
+                <td>{{ item.snapshots[0].quantity_on_hand }}</td>
+                <td>{{ item.snapshots[0].reorder_point}}</td>
+                <td>{{ item.snapshots[0].reorder_quantity}}</td>
+                <td>{{ item.snapshots[0].primary_vendor.name }}</td>
             </tr>
         {% endfor %}
     </table>
