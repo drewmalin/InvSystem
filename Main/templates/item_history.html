@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+    {% if item %}
+    <br>
+    <a class = "btn" href="/">Home</a>
+    <a class = "btn" href="/item/{{item.id}}">Item</a>
+    <div class = "container">
+    
+    <table class = "table table-hover table-bordered table-condensed">
+        <tr>
+            <th>Name</th>
+            <th>Catalog Number</th>
+            <th>Quantity On Hand</th>
+            <th>Reorder Point</th>
+            <th>Reorder Quantity</th>
+            <th>Vendor</th>
+            <th>Timestamp</th>
+        </tr>
+       {% for snapshot in item.snapshots %}
+        <tr>
+            <td>{{ snapshot.name }}</a></td>
+            <td>{{ snapshot.num }}</td>
+            <td>{{ snapshot.quantity_on_hand }}</td>
+            <td>{{ snapshot.reorder_point}}</td>
+            <td>{{ snapshot.reorder_quantity}}</td>
+            <td>{{ snapshot.primary_vendor.name }}</td>
+            <td>{{ snapshot.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <p>Something went wrong!</p>
+    {% endif %}
+{% endblock %}
