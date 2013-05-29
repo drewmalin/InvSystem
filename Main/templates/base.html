@@ -8,11 +8,11 @@
 
     </head>
     <body>
-        <h1>Inventory System</h1>
-        <!-- Display system messages -->
-        {% for message in get_flashed_messages() %}
-            {{ message }}
-        {% endfor %}
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="/">Tethys Inventory Management</a>
+            </div>
+        </div>
         <!-- Spot for rendering primary block -->
         {% block body %}
         {% endblock %}

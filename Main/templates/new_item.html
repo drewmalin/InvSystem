@@ -1,46 +1,69 @@
 {% extends "base.html" %}
 {% block body %}
-    {% if item %}
-    <form action="/item/edit/{{item.id}}" method="POST">
-        <dl>
-            <dt> Name:
-            <dd> <input name="name" type="text" size="40" value={{item.snapshots[0].name}} />
-            <dt> Num:
-            <dd> <input name="num" type="text" size="40" value={{item.snapshots[0].num}} />
-            <dt> Quantity on hand:
-            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].quantity_on_hand}}  />
-            <dt> Reorder Point:
-            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].reorder_point}} />
-            <dt> Reorder Quantity:
-            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].reorder_quantity}} />
-            <dt> Vendor:
-            <dd> <input name="vendor" type="name" size="40" value={{item.snapshots[0].primary_vendor}} />
-            <br><br>
-            <dd> <input class = "btn" name="save" type="submit" value="Save" />
-            <a class = "btn" href="/item/{{item.id}}">Cancel</a>
-        </dl>
-
-    </form>
-    {% else %}
-    <form action="/item/edit/" method="POST">
-        <dl>
-            <dt> Name: 
-            <dd> <input name="name" type="text" size="40" />
-            <dt> Catalog Number: 
-            <dd> <input name="num" type="text" size="40" />
-            <dt> Quantity on Hand: 
-            <dd> <input name="quantity" type="number" size="40" />
-            <dt> Reorder Point:
-            <dd> <input name="quantity" type="number" size="40" />
-            <dt> Reorder Quantity:
-            <dd> <input name="quantity" type="number" size="40" />
-            <dt> Vendor:
-            <dd> <input name="vendor" type="name" size="40" />
-            <br><br>
-            <dd><input class = "btn" name="save" type="submit" value="Save" />
-            <a class = "btn" href="/">Cancel</a>
-        </dl>
-
-    </form>
-    {% endif %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <!-- Sidebar -->
+                <ul class="nav nav-list">
+                    <li><a href="/">Search</a></li>
+                    <li><a href="#">Generate Report</a></li>
+                    <li class="active"><a href="/item/edit/">Enter Item</a></li>
+                    <li><a href="#">Enter Vendor</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+            <div class="span10">
+                <!-- Main content -->
+                {% if get_flashed_messages() %}
+                    <div class="alert alert-info" id="infoBar">
+                        {% for message in get_flashed_messages() %}
+                            <div class="flash">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if item %}
+                    <form action="/item/edit/{{item.id}}" method="POST">
+                        <dl>
+                            <dt> Name:
+                            <dd> <input name="name" type="text" size="40" value={{item.snapshots[0].name}} />
+                            <dt> Num:
+                            <dd> <input name="num" type="text" size="40" value={{item.snapshots[0].num}} />
+                            <dt> Quantity on hand:
+                            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].quantity_on_hand}}  />
+                            <dt> Reorder Point:
+                            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].reorder_point}} />
+                            <dt> Reorder Quantity:
+                            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].reorder_quantity}} />
+                            <dt> Vendor:
+                            <dd> <input name="vendor" type="name" size="40" value={{item.snapshots[0].primary_vendor}} />
+                            <br><br>
+                            <dd> <input class = "btn" name="save" type="submit" value="Save" />
+                            <a class = "btn" href="/item/{{item.id}}">Cancel</a>
+                        </dl>
+                    </form>
+                {% else %}
+                    <form action="/item/edit/" method="POST">
+                        <dl>
+                            <dt> Name: 
+                            <dd> <input name="name" type="text" size="40" />
+                            <dt> Catalog Number: 
+                            <dd> <input name="num" type="text" size="40" />
+                            <dt> Quantity on Hand: 
+                            <dd> <input name="quantity" type="number" size="40" />
+                            <dt> Reorder Point:
+                            <dd> <input name="quantity" type="number" size="40" />
+                            <dt> Reorder Quantity:
+                            <dd> <input name="quantity" type="number" size="40" />
+                            <dt> Vendor:
+                            <dd> <input name="vendor" type="name" size="40" />
+                            <br><br>
+                            <dd><input class = "btn" name="save" type="submit" value="Save" />
+                            <a class = "btn" href="/">Cancel</a>
+                        </dl>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

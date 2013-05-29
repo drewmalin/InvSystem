@@ -1,29 +1,39 @@
 {% extends "base.html" %}
 {% block body %}
- <form class = "form-inline" action="/" method="POST">
-        Search: <input name="search" type="text" size="100" />
-        <input name="search" class = "btn" type="submit" value="Submit" />
-    </form>
-    {% if item %}
-    <br>
-    <a class = "btn" href="/">Home</a>
-    <a class = "btn" href="/item/history/{{item.id}}">History</a>
-    <div class = "container">
-        <h1>{{item.snapshots[0].name}}</h1>
-         <br><br>
-        Catalog Number: {{item.snapshots[0].num}}
-        <br><br>
-        Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}
-        <br><br>
-        Reorder Point: {{item.snapshots[0].reorder_point}}
-        <br><br>
-        Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
-        <br><br>
-        Vendor: {{item.snapshots[0].primary_vendor}}
-        <br><br>
-        <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <!-- Sidebar -->
+                <ul class="nav nav-list">
+                    <li><a href="/">Search</a></li>
+                    <li><a href="#">Generate Report</a></li>
+                    <li><a href="/item/edit/">Enter Item</a></li>
+                    <li><a href="#">Enter Vendor</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+            <div class="span10">
+                <!-- Main content -->
+                {% if item %}
+                <h1>{{item.snapshots[0].name}}</h1>
+                <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
+                <a class = "btn" href="/item/history/{{item.id}}">History</a>
+                <br>
+                <hr>
+                Catalog Number: {{item.snapshots[0].num}}
+                <br><br>
+                Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}
+                <br><br>
+                Reorder Point: {{item.snapshots[0].reorder_point}}
+                <br><br>
+                Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
+                <br><br>
+                Vendor: {{item.snapshots[0].primary_vendor}}
+                {% else %}
+                <p>Something went wrong!</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
-    {% else %}
-        <p>Something went wrong!</p>
-    {% endif %}
 {% endblock %}

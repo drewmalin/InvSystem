@@ -51,12 +51,18 @@ class ItemMod(flask.views.MethodView):
 
     def post(self, item_id):
         if item_id == None:
-            self.myPost()
-            return flask.redirect(flask.url_for('index'))
+            item = self.myPost()
+            if item == None:
+                return flask.render_template('new_item.html')
+            else:
+                return flask.render_template('item.html', item = item)
         else:
-            self.myPut(item_id)
-            item = session.query(Item).get(item_id)
-            return flask.render_template('item.html', item = item)
+            item = self.myPut(item_id)
+            if item == None:
+                item = session.query(Item).get(item_id)
+                return flask.render_template('new_item.html', item = item)
+            else:
+                return flask.render_template('item.html', item = item)
 
     def myPost(self):
         error = 0
@@ -69,9 +75,9 @@ class ItemMod(flask.views.MethodView):
         if flask.request.form['quantity'] == "":
             flask.flash("Quantity is required!")
             error = 1
-        if error > 0:
-            return flask.redirect(flask.url_for('item'))
-        
+        if error == 1:
+            return None
+
         item = Item()
         itemSnapshot = ItemSnapshot(flask.request.form['name'],
                                     flask.request.form['num'],
@@ -82,6 +88,7 @@ class ItemMod(flask.views.MethodView):
         item.snapshots.append(itemSnapshot)
         session.add(item)
         session.commit()
+        return item
         
     def myPut(self, item_id):
         error = 0
@@ -94,9 +101,8 @@ class ItemMod(flask.views.MethodView):
         if flask.request.form['quantity'] == "":
             flask.flash("Quantity is required!")
             error = 1
-        if error > 0:
-            return flask.redirect(flask.url_for('item'))
-        
+        if error == 1:
+            return None
         item = session.query(Item).get(item_id)
         itemSnapshot = ItemSnapshot(flask.request.form['name'],
                                     flask.request.form['num'],
@@ -104,4 +110,5 @@ class ItemMod(flask.views.MethodView):
                                     1, 1)
         item.snapshots.append(itemSnapshot)
         session.commit()
+        return item
 

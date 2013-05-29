@@ -1,43 +1,55 @@
 {% extends "base.html" %}
 {% block body %}
-    <form class = "form-inline" action="/" method="POST">
-        Search: <input name="search" type="text" size="100" />
-        <input name="search" class = "btn" type="submit" value="Submit" />
-    </form>
-    <br>
-    <div class = "dropdown">
-    <a class = "btn" href="/item/edit/">New Item</a>
-        <a class="btn" id = "dLabel" role="dropdown-toggle" data-toggle="dropdown" href="#">Reports
-            <b class = "caret" ></b>
-        </a>
-        <ul class = "dropdown-menu" role="menu" aria-labelledby="dLabel">
-            <li><a href = "#">Usage</a></li>
-            <li><a href = "#">Reorder</a></li>
-        </ul>
+    <div class = "container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <!-- Sidebar -->
+                <ul class="nav nav-list">
+                    <li class="active"><a href="#">Search</a></li>
+                    <li><a href="#">Generate Report</a></li>
+                    <li><a href="/item/edit/">Enter Item</a></li>
+                    <li><a href="#">Enter Vendor</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+            <div class="span10">
+                <!-- Main content -->
+                <form class = "form-inline" action="/" method="POST">
+                    Search: <input name="search" type="text" size="100" />
+                    <input name="search" class = "btn" type="submit" value="Submit" />
+                </form>
+                <div class = "dropdown">
+                    <a class="btn" id = "dLabel" role="dropdown-toggle" data-toggle="dropdown" href="#">Reports
+                        <b class = "caret" ></b>
+                    </a>
+                    <ul class = "dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a href = "#">Usage</a></li>
+                        <li><a href = "#">Reorder</a></li>
+                    </ul>
+                </div>
+                <hr>
+                <table class = "table table-hover table-bordered table-condensed">
+                    <tr>
+                        <th>Name</th>
+                        <th>Catalog Number</th>
+                        <th>Quantity On Hand</th>
+                        <th>Reorder Point</th>
+                        <th>Reorder Quantity</th>
+                        <th>Vendor</th>
+                    </tr>
+                    {% for item in items %}
+                    <tr>
+                        <td><a href="/item/{{item.id}}">{{ item.snapshots[0].name }}</a></td>
+                        <td>{{ item.snapshots[0].num }}</td>
+                        <td>{{ item.snapshots[0].quantity_on_hand }}</td>
+                        <td>{{ item.snapshots[0].reorder_point}}</td>
+                        <td>{{ item.snapshots[0].reorder_quantity}}</td>
+                        <td>{{ item.snapshots[0].primary_vendor.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <div class = "container">
-    <table class = "table table-hover table-bordered table-condensed">
-        <tr>
-            <th>Name</th>
-            <th>Catalog Number</th>
-            <th>Quantity On Hand</th>
-            <th>Reorder Point</th>
-            <th>Reorder Quantity</th>
-            <th>Vendor</th>
-        </tr>
-        {% for item in items %}
-            <tr>
-                <td><a href="/item/{{item.id}}">{{ item.snapshots[0].name }}</a></td>
-                <td>{{ item.snapshots[0].num }}</td>
-                <td>{{ item.snapshots[0].quantity_on_hand }}</td>
-                <td>{{ item.snapshots[0].reorder_point}}</td>
-                <td>{{ item.snapshots[0].reorder_quantity}}</td>
-                <td>{{ item.snapshots[0].primary_vendor.name }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-</div>
 {% endblock %}
