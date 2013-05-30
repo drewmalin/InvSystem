@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <!-- Sidebar -->
+                <ul class="nav nav-list">
+                    <li><a href="/">Search</a></li>
+                    <li><a href="#">Generate Report</a></li>
+                    <li><a href="/item/edit/">Enter Item</a></li>
+                    <li class="active"><a href="#">Enter Vendor</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+            <div class="span10">
+                <!-- Main content -->
+                {% if get_flashed_messages() %}
+                    <div class="alert alert-info" id="infoBar">
+                        {% for message in get_flashed_messages() %}
+                            <div class="flash">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if vendor %}
+                    <form action="/vendor/edit/{{vendor.id}}" method="POST">
+                        <dl>
+                            <dt>Name<font color="red">*</font>:
+                            <dd> <input name="name" type="text" size="40" value={{vendor.name}}/>
+                            <br><br>
+                            <dd> <font color="red">*</font> denotes a required field
+                            <br><br>
+                            <dd> <input class="btn" name="save" type="submit" value="Save" />
+                            <a class="btn" href="/vendor/{{vendor.id}}">Cancel</a>
+                        </dl>
+                    </form>
+                {% else %}
+                    <form action="/vendor/edit/" method="POST">
+                        <dl>
+                            <dt>Name<font color="red">*</font>:
+                            <dd> <input name="name" type="text" size="40" />
+                            <br><br>
+                            <dd> <font color="red">*</font> denotes a required field
+                            <br><br>
+                            <dd> <input class="btn" name="save" type="submit" value="Save" />
+                            <a class="btn" href="/">Cancel</a>
+                        </dl>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

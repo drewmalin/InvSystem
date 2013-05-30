@@ -8,16 +8,19 @@ app.secret_key  = 'under_development'
 import Main.views
 from views import *
 
+#######     INDEX       #######
 app.add_url_rule('/', 
                  view_func = Index.as_view('index'),
                  methods = ['GET', 'POST'])
+
+######      ITEM        #######
 app.add_url_rule('/item/',
                  defaults = {'item_id': None},
                  view_func = ItemView.as_view('item'),
                  methods = ['GET', 'POST'])
 app.add_url_rule('/item/<int:item_id>',
                  view_func = ItemView.as_view('item'),
-                 methods = ['GET', 'POST', 'PUT'])
+                 methods = ['GET', 'POST'])
 app.add_url_rule('/item/edit/',
                  defaults = {'item_id': None},
                  view_func = ItemMod.as_view('item_mod'),
@@ -28,6 +31,22 @@ app.add_url_rule('/item/edit/<int:item_id>',
 app.add_url_rule('/item/history/<int:item_id>',
                 view_func = ItemHistory.as_view('item_history'),
                 methods = ['GET'])
+
+######      VENDOR      #######
+app.add_url_rule('/vendor/',
+                 defaults = {'vendor_id':None},
+                 view_func = VendorView.as_view('vendor'),
+                 methods = ['GET', 'POST'])
+app.add_url_rule('/vendor/<int:vendor_id>',
+                 view_func = VendorView.as_view('vendor'),
+                 methods = ['GET', 'POST'])
+app.add_url_rule('/vendor/edit/',
+                 defaults = {'vendor_id': None},
+                 view_func = VendorMod.as_view('vendor_mod'),
+                 methods = ['GET', 'POST'])
+app.add_url_rule('/vendor/edit/<int:vendor_id>',
+                 view_func = VendorMod.as_view('vendor_mod'),
+                 methods = ['GET', 'POST'])
 
 from models import *
 Base.metadata.create_all(engine)

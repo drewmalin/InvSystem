@@ -16,22 +16,22 @@
             <div class="span10">
                 <!-- Main content -->
                 {% if item %}
-                <h1>{{item.snapshots[0].name}}</h1>
-                <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
-                <a class = "btn" href="/item/history/{{item.id}}">History</a>
-                <br>
-                <hr>
-                Catalog Number: {{item.snapshots[0].num}}
-                <br><br>
-                Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}
-                <br><br>
-                Reorder Point: {{item.snapshots[0].reorder_point}}
-                <br><br>
-                Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
-                <br><br>
-                Vendor: {{item.snapshots[0].primary_vendor}}
+                    <h1>{{item.snapshots[0].name}}</h1>
+                    <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
+                    <a class = "btn" href="/item/history/{{item.id}}">History</a>
+                    <br>
+                    <hr>
+                    Catalog Number: {{item.snapshots[0].num}}
+                    <br><br>
+                    Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}
+                    <br><br>
+                    Reorder Point: {{item.snapshots[0].reorder_point}}
+                    <br><br>
+                    Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
+                    <br><br>
+                    Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
                 {% else %}
-                <p>Something went wrong!</p>
+                    <p>Something went wrong!</p>
                 {% endif %}
             </div>
         </div>

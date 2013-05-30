@@ -51,31 +51,21 @@ class ItemMod(flask.views.MethodView):
 
     def post(self, item_id):
         if item_id == None:
-            item = self.myPost()
+            item = self.createItem()
             if item == None:
                 return flask.render_template('new_item.html')
             else:
                 return flask.render_template('item.html', item = item)
         else:
-            item = self.myPut(item_id)
+            item = self.editItem(item_id)
             if item == None:
                 item = session.query(Item).get(item_id)
                 return flask.render_template('new_item.html', item = item)
             else:
                 return flask.render_template('item.html', item = item)
 
-    def myPost(self):
-        error = 0
-        if flask.request.form['name'] == "":
-            flask.flash("Name is required!")
-            error = 1
-        if flask.request.form['num'] == "":
-            flask.flash("Num is required!")
-            error = 1
-        if flask.request.form['quantity'] == "":
-            flask.flash("Quantity is required!")
-            error = 1
-        if error == 1:
+    def createItem(self):
+        if self.validateSubmission != 0:
             return None
 
         item = Item()
@@ -90,18 +80,8 @@ class ItemMod(flask.views.MethodView):
         session.commit()
         return item
         
-    def myPut(self, item_id):
-        error = 0
-        if flask.request.form['name'] == "":
-            flask.flash("Name is required!")
-            error = 1
-        if flask.request.form['num'] == "":
-            flask.flash("Num is required!")
-            error = 1
-        if flask.request.form['quantity'] == "":
-            flask.flash("Quantity is required!")
-            error = 1
-        if error == 1:
+    def editItem(self, item_id):
+        if self.validateSubmission() != 0:
             return None
         item = session.query(Item).get(item_id)
         itemSnapshot = ItemSnapshot(flask.request.form['name'],
@@ -112,3 +92,78 @@ class ItemMod(flask.views.MethodView):
         session.commit()
         return item
 
+    def validateSubmission(self):
+        error = 0
+        if flask.request.form['name'] == "":
+            flask.flash("Item name is required")
+            error = 1
+        if flask.request.form['num'] == "":
+            flask.flash("Item ID number is required")
+            error = 1
+        if flask.request.form['quantity'] == "":
+            flask.flash("Item quantity on hand is required")
+            error = 1
+        if flask.request.form['reorder_point'] == "":
+            flask.flash("Reorder point is required")
+            error = 1
+        if flask.request.form['reorder_quantity'] == "":
+            flask.flash("Reorder quantity is required")
+            error = 1
+        if flask.request.form['primary_vendor'] == "":
+            flask.flash("Primary vendor is required")
+            error = 1
+        return error
+
+class VendorView(flask.views.MethodView):
+    def get(self, vendor_id):
+        if vendor_id != None:
+            vendor = session.query(Vendor).get(vendor_id)
+            return flask.render_template('vendor.html', vendor = vendor)
+        else:
+            return flask.redirect(flask.url_for('index'))
+
+class VendorMod(flask.views.MethodView):
+    def get(self, vendor_id):
+        if vendor_id != None:
+            vendor = session.query(Vendor).get(vendor_id)
+        else:
+            vendor = None
+        return flask.render_template('new_vendor.html', vendor = vendor)
+
+    def post(self, vendor_id):
+        if vendor_id == None:
+            vendor = self.createVendor()
+            if vendor == None:
+                return flask.render_template('new_vendor.html')
+            else:
+                return flask.render_template('vendor.html', vendor = vendor)
+        else:
+            vendor = self.editVendor(vendor_id)
+            if vendor == None:
+                vendor = session.query(Vendor).get(vendor_id)
+                return flaks.render_template('new_vendor.html', vendor = vendor)
+            else:
+                return flask.render_template('vendor.html', vendor = vendor)
+
+    def createVendor(self):
+        if self.validateSubmission() != 0:
+            return None
+        vendor = Vendor(flask.request.form['name'])
+        session.add(vendor)
+        session.commit()
+        return vendor
+
+    def editVendor(self, vendor_id):
+        if self.validateSubmission() != 0:
+            return None
+        vendor = session.query(Vendor).get(vendor_id)
+        vendor.name = flask.request.form['name']
+        session.commit()
+        return vendor
+
+    def validateSubmission(self):
+        error = 0
+        if flask.request.form['name'] == "":
+            flask.flash("Vendor name is required")
+            error = 1
+        return error

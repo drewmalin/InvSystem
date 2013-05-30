@@ -8,7 +8,7 @@
                     <li><a href="/">Search</a></li>
                     <li><a href="#">Generate Report</a></li>
                     <li class="active"><a href="/item/edit/">Enter Item</a></li>
-                    <li><a href="#">Enter Vendor</a></li>
+                    <li><a href="/vendor/edit/">Enter Vendor</a></li>
                     <li class="divider"></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
@@ -25,18 +25,20 @@
                 {% if item %}
                     <form action="/item/edit/{{item.id}}" method="POST">
                         <dl>
-                            <dt> Name:
+                            <dt> Name<font color="red">*</font>:
                             <dd> <input name="name" type="text" size="40" value={{item.snapshots[0].name}} />
-                            <dt> Num:
+                            <dt> Num<font color="red">*</font>:
                             <dd> <input name="num" type="text" size="40" value={{item.snapshots[0].num}} />
-                            <dt> Quantity on hand:
+                            <dt> Quantity on hand<font color="red">*</font>:
                             <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].quantity_on_hand}}  />
-                            <dt> Reorder Point:
-                            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].reorder_point}} />
-                            <dt> Reorder Quantity:
-                            <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].reorder_quantity}} />
-                            <dt> Vendor:
-                            <dd> <input name="vendor" type="name" size="40" value={{item.snapshots[0].primary_vendor}} />
+                            <dt> Reorder Point<font color="red">*</font>:
+                            <dd> <input name="reorder_point" type="number" size="40" value={{item.snapshots[0].reorder_point}} />
+                            <dt> Reorder Quantity<font color="red">*</font>:
+                            <dd> <input name="reorder_quantity" type="number" size="40" value={{item.snapshots[0].reorder_quantity}} />
+                            <dt> Primary Vendor<font color="red">*</font>:
+                            <dd> <input name="primary_vendor" type="name" size="40" value={{item.snapshots[0].primary_vendor}} />
+                            <br><br>
+                            <dd> <font color="red">*</font> denotes a required field
                             <br><br>
                             <dd> <input class = "btn" name="save" type="submit" value="Save" />
                             <a class = "btn" href="/item/{{item.id}}">Cancel</a>
@@ -45,18 +47,20 @@
                 {% else %}
                     <form action="/item/edit/" method="POST">
                         <dl>
-                            <dt> Name: 
+                            <dt> Name<font color="red">*</font>: 
                             <dd> <input name="name" type="text" size="40" />
-                            <dt> Catalog Number: 
+                            <dt> Catalog Number<font color="red">*</font>:
                             <dd> <input name="num" type="text" size="40" />
-                            <dt> Quantity on Hand: 
+                            <dt> Quantity on Hand<font color="red">*</font>:
                             <dd> <input name="quantity" type="number" size="40" />
-                            <dt> Reorder Point:
-                            <dd> <input name="quantity" type="number" size="40" />
-                            <dt> Reorder Quantity:
-                            <dd> <input name="quantity" type="number" size="40" />
-                            <dt> Vendor:
-                            <dd> <input name="vendor" type="name" size="40" />
+                            <dt> Reorder Point<font color="red">*</font>:
+                            <dd> <input name="reorder_point" type="number" size="40" />
+                            <dt> Reorder Quantity<font color="red">*</font>:
+                            <dd> <input name="quantity_quantity" type="number" size="40" />
+                            <dt> Primary Vendor<font color="red">*</font>:
+                            <dd> <input name="primary_vendor" type="name" size="40" />
+                            <br><br>
+                            <dd> <font color="red">*</font> denotes a required field
                             <br><br>
                             <dd><input class = "btn" name="save" type="submit" value="Save" />
                             <a class = "btn" href="/">Cancel</a>
