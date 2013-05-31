@@ -1,5 +1,6 @@
 from flask      import Flask
 from util       import Base, engine
+from api        import *
 
 app             = Flask(__name__)
 app.debug       = True
@@ -47,6 +48,15 @@ app.add_url_rule('/vendor/edit/',
 app.add_url_rule('/vendor/edit/<int:vendor_id>',
                  view_func = VendorMod.as_view('vendor_mod'),
                  methods = ['GET', 'POST'])
+
+######      API         #######
+app.add_url_rule('/api/vendors/',
+    defaults={'vendor_id': None},
+    view_func=VendorAPI.as_view('vendor_api'),
+    methods=['GET'])
+app.add_url_rule('/api/vendors/<int:vendor_id>',
+    view_func=VendorAPI.as_view('vendor_api'),
+    methods=['GET'])
 
 from models import *
 Base.metadata.create_all(engine)
