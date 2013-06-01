@@ -7,6 +7,7 @@ $(function() {
 
     $.getJSON('/api/quantity/1',
         function(data) {
+            alert('#hidden_vendor_id');
             date_list = data.dates;
             series = data.data;
             generateChart(data);
