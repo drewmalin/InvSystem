@@ -65,10 +65,14 @@ class ItemMod(flask.views.MethodView):
         secondary_vendor = session.query(Vendor).get(flask.request.form['secondary_vendor'])
 
         itemSnapshot.primary_vendor = primary_vendor
-        itemSnapshot.secondary_vendor = secondary_vendor
+
+        if (flask.request.form['secondary_vendor'] != ""):
+            itemSnapshot.secondary_vendor = secondary_vendor
         
         itemSnapshot.primary_vendor_p = flask.request.form['primary_vendor_p']
-        itemSnapshot.secondary_vendor_p = flask.request.form['secondary_vendor_p']
+        
+        if (flask.request.form['secondary_vendor_p'] != ""):
+            itemSnapshot.secondary_vendor_p = flask.request.form['secondary_vendor_p']
 
         item.snapshots.append(itemSnapshot)
         session.add(item)
@@ -88,11 +92,14 @@ class ItemMod(flask.views.MethodView):
         secondary_vendor = session.query(Vendor).get(flask.request.form['secondary_vendor'])
 
         itemSnapshot.primary_vendor = primary_vendor
-        itemSnapshot.secondary_vendor = secondary_vendor
-        
+
+        if (flask.request.form['secondary_vendor'] != ""):
+            itemSnapshot.secondary_vendor = secondary_vendor
         
         itemSnapshot.primary_vendor_p = flask.request.form['primary_vendor_p']
-        itemSnapshot.secondary_vendor_p = flask.request.form['secondary_vendor_p']
+
+        if (flask.request.form['secondary_vendor_p'] != ""):
+            itemSnapshot.secondary_vendor_p = flask.request.form['secondary_vendor_p']
 
         item.snapshots.append(itemSnapshot)
         session.commit()
@@ -114,6 +121,12 @@ class ItemMod(flask.views.MethodView):
             error = 1
         if flask.request.form['reorder_quantity'] == "":
             flask.flash("Reorder quantity is required")
+            error = 1
+        if flask.request.form['primary_vendor'] == "":
+            flask.flash("Primary vendor is required")
+            error = 1
+        if flask.request.form['primary_vendor_p'] == "":
+            flask.flash("Primary vendor price is required")
             error = 1
         return error
 
