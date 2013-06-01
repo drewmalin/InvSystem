@@ -38,3 +38,4 @@ venv
 *.db
 
 *.swp
+*.DS_Store
