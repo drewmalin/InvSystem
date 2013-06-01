@@ -40,19 +40,15 @@ class ItemMod(flask.views.MethodView):
         if item_id == None:
             item = self.createItem()
             if item == None:
-                print "ERROR CREATING ITEM"
                 return flask.render_template('new_item.html')
             else:
-                print "SUCCESS CREATING ITEM"
                 return flask.render_template('item.html', item = item)
         else:
             item = self.editItem(item_id)
             if item == None:
-                print "ERROR EDITING ITEM"
                 item = session.query(Item).get(item_id)
                 return flask.render_template('new_item.html', item = item)
             else:
-                print "SUCCESS EDITING ITEM"
                 return flask.render_template('item.html', item = item)
 
     def createItem(self):
@@ -70,6 +66,10 @@ class ItemMod(flask.views.MethodView):
 
         itemSnapshot.primary_vendor = primary_vendor
         itemSnapshot.secondary_vendor = secondary_vendor
+        
+        itemSnapshot.primary_vendor_p = flask.request.form['primary_vendor_p']
+        itemSnapshot.secondary_vendor_p = flask.request.form['secondary_vendor_p']
+
         item.snapshots.append(itemSnapshot)
         session.add(item)
         session.commit()
@@ -89,6 +89,11 @@ class ItemMod(flask.views.MethodView):
 
         itemSnapshot.primary_vendor = primary_vendor
         itemSnapshot.secondary_vendor = secondary_vendor
+        
+        
+        itemSnapshot.primary_vendor_p = flask.request.form['primary_vendor_p']
+        itemSnapshot.secondary_vendor_p = flask.request.form['secondary_vendor_p']
+
         item.snapshots.append(itemSnapshot)
         session.commit()
         return item
