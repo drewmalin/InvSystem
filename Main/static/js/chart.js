@@ -4,10 +4,11 @@ $(function() {
     var name = 'Quantity Over Time'
     var xName = 'Time'
     var yName = 'Quantity'
+    var URL = document.URL
+    var id = URL.substring(URL.lastIndexOf('/')+1)
 
-    $.getJSON('/api/quantity/1',
+    $.getJSON('/api/quantity/'+id,
         function(data) {
-            alert('#hidden_vendor_id');
             date_list = data.dates;
             series = data.data;
             generateChart(data);
