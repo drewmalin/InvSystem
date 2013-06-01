@@ -1,47 +1,57 @@
 {% extends "base.html" %}
 {% block body %}
-<!--
-    <script>
-    $(function() {
-        $.getJSON('/api/quantity/1',
-            function(data) {
-                $('#quantity_chart').highcharts('StockChart', {
-                    chart: {
-                        type: 'line'
-                });
-            }
-        );
-    }
-    </script>
--->    
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span2">
                 <!-- Sidebar -->
+                <br><br>
                 <ul class="nav nav-list">
                     <li><a href="/">Search</a></li>
                     <li><a href="#">Generate Report</a></li>
                     <li><a href="/item/edit/">Enter Item</a></li>
-                    <li><a href="#">Enter Vendor</a></li>
+                    <li><a href="/vendor/edit/">Enter Vendor</a></li>
                     <li class="divider"></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
             </div>
             <div class="span10">
                 <!-- Main content -->
-                {% if item %}
-                    <h1>{{item.snapshots[0].name}}</h1>
-                    <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
-                    <a class = "btn" href="/item/history/{{item.id}}">History</a>
-                    <br>
-                    <hr>
-                    Catalog Number: {{item.snapshots[0].num}}
+                {% if item %}                    
+                    <h2>{{item.snapshots[0].name}}</h2>
+                <div class = "row">
+                    <div class = "span5">
+                        <h5>Catalog Number: {{item.snapshots[0].num}}</h5>
+                    </div>
+                    <div class = "span5">
+                        <h5>Total Quantity on Hand: <strong>{{item.snapshots[0].quantity_on_hand}}</strong></h5>
+                    </div>
+                </div>
+                <div class = "row">
+                        <div class = "span5">
+                            Reorder Point: {{item.snapshots[0].reorder_point}}
+                        </div>
+                        <div class = "span5">
+                            Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
+                        </div>
+                </div>
+                <hr>
                     <br><br>
-                    Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}
-                    <br><br>
-                    Reorder Point: {{item.snapshots[0].reorder_point}}
-                    <br><br>
-                    Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
+                <div class = "row">
+                    <div class = "span5">
+                        Primary Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
+                        <br>
+                        Price: $ {{item.snapshots[0].primary_vendor_p}}
+                        <br> 
+                        QTY Purchased:
+                    </div>
+                    <div class = "span5">
+                        Secondary Vendor: <a href="/vendor/{{item.snapshots[0].secondary_vendor.id}}">{{item.snapshots[0].secondary_vendor.name}}</a>
+                        <br>
+                        Price: $ {{item.snapshots[0].secondary_vendor_p}}
+                        <br>
+                        QTY Purchased:
+                    </div>
+                </div> 
                     <br><br>
                     Primary Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
                     <br><br>
@@ -49,7 +59,9 @@
                     <div id="hidden_item_id" value={{item.id}} style="display: none;"></div>
                     <br><br>
                     <div id="quantity_chart" style="min-width: 400px; margin: 0 auto marginBottom: 120" iid="{{item.id}}"></div>
-                    <br>
+                    <br><br>
+                    <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
+                    <a class = "btn" href="/item/history/{{item.id}}">History</a>
                 {% else %}
                     <p>Something went wrong!</p>
                 {% endif %}
