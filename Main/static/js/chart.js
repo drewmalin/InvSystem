@@ -20,8 +20,8 @@ $(function() {
             chart: {
                 renderTo: 'quantity_chart',
                 type: 'line',
-                marginRight: 130,
-                marginBottom: 25
+                marginRight: 50,
+                marginBottom: 200
             },
             title: {
                 text: name,
@@ -30,7 +30,7 @@ $(function() {
             xAxis: {
                 type: 'datetime',
                 labels: {
-                    overflow: 'justify'
+                    staggerLines: 2
                 },
                 title: {
                     text: xName
