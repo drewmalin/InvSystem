@@ -2,9 +2,21 @@
 {% block body %}
     <script>
         $(document).ready(function() {
-            var src = ["test1", "test2", "test3"];
-            $('#vendor_dropdown').select2({
-                placeholder: "Select Vendor",
+            $('#primary_vendor_dropdown').select2({
+                placeholder: "Select Primary Vendor",
+                ajax: {
+                    url: "/api/vendors",
+                    dataType: "json",
+                    data: function(term, page) {
+                        return {q: term}
+                    },
+                    results: function(data, page) {
+                        return {results: data.results};
+                    }
+                }
+            });
+            $('#secondary_vendor_dropdown').select2({
+                placeholder: "Select Secondary Vendor",
                 ajax: {
                     url: "/api/vendors",
                     dataType: "json",
@@ -53,8 +65,10 @@
                             <dd> <input name="reorder_point" type="number" size="40" value={{item.snapshots[0].reorder_point}} />
                             <dt> Reorder Quantity<font color="red">*</font>:
                             <dd> <input name="reorder_quantity" type="number" size="40" value={{item.snapshots[0].reorder_quantity}} />
-                            <dt> Primary Vendor<font color="red">*</font>:
-                            <dd> <input name="primary_vendor" type="name" size="40" value={{item.snapshots[0].primary_vendor}} />
+                            <dt> Primary Vendor:
+                            <dd> <input name="primary_vendor" id="primary_vendor_dropdown" style="width: 300px" />
+                            <dt> Secondary Vendor:
+                            <dd> <input name="secondary_vendor" id="secondary_vendor_dropdown" style="width: 300px"/>
                             <br><br>
                             <dd> <font color="red">*</font> denotes a required field
                             <br><br>
@@ -74,12 +88,11 @@
                             <dt> Reorder Point<font color="red">*</font>:
                             <dd> <input name="reorder_point" type="number" size="40" />
                             <dt> Reorder Quantity<font color="red">*</font>:
-                            <dd> <input name="quantity_quantity" type="number" size="40" />
-                            <dt> Primary Vendor<font color="red">*</font>:
-                            <dd> <input name="primary_vendor" type="name" size="40" />
+                            <dd> <input name="reorder_quantity" type="number" size="40" />
+                            <dt> Primary Vendor:
+                            <dd> <input name="primary_vendor" id="primary_vendor_dropdown" style="width: 300px" />
                             <dt> Secondary Vendor:
-                            <dd><input id="vendor_dropdown" style="width: 300px"/>
-                            <input type="hidden" id="hidden_vendor_id"/>
+                            <dd><input name="secondary_vendor" id="secondary_vendor_dropdown" style="width: 300px"/>
                             <br><br>
                             <dd> <font color="red">*</font> denotes a required field
                             <br><br>

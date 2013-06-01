@@ -29,7 +29,9 @@
                     <br><br>
                     Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
                     <br><br>
-                    Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
+                    Primary Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
+                    <br><br>
+                    Secondary Vendor: <a href="/vendor/{{item.snapshots[0].secondary_vendor.id}}">{{item.snapshots[0].secondary_vendor.name}}</a>
                 {% else %}
                     <p>Something went wrong!</p>
                 {% endif %}

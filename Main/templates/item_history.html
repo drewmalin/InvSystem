@@ -13,17 +13,19 @@
             <th>Quantity On Hand</th>
             <th>Reorder Point</th>
             <th>Reorder Quantity</th>
-            <th>Vendor</th>
+            <th>Primary Vendor</th>
+            <th>Secondary Vendor</th>
             <th>Timestamp</th>
         </tr>
        {% for snapshot in item.snapshots %}
         <tr>
-            <td>{{ snapshot.name }}</a></td>
+            <td>{{ snapshot.name }}</td>
             <td>{{ snapshot.num }}</td>
             <td>{{ snapshot.quantity_on_hand }}</td>
             <td>{{ snapshot.reorder_point}}</td>
             <td>{{ snapshot.reorder_quantity}}</td>
             <td>{{ snapshot.primary_vendor.name }}</td>
+            <td>{{ snapshot.secondary_vendor.name}}</td>
             <td>{{ snapshot.timestamp }}</td>
         </tr>
         {% endfor %}
