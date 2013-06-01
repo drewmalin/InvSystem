@@ -20,8 +20,7 @@ $(function() {
             chart: {
                 renderTo: 'quantity_chart',
                 type: 'line',
-                marginRight: 50,
-                marginBottom: 200
+                marginRight: 50
             },
             title: {
                 text: name,
