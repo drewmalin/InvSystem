@@ -28,6 +28,10 @@ class ItemSnapshot(Base):
     reorder_point		= Column(Integer)
     primary_vendor_id   = Column(Integer, ForeignKey('Vendor.id'))
     secondary_vendor_id = Column(Integer, ForeignKey('Vendor.id'))
+    primary_vendor_q    = Column(Integer)
+    secondary_vendor_q  = Column(Integer)
+    primary_vendor_p    = Column(Integer)
+    secondary_vendor_p  = Column(Integer)
 
     # Relatioships
     primary_vendor      = relationship('Vendor', primaryjoin='Vendor.id==ItemSnapshot.primary_vendor_id', backref='snapshots_as_primary')
