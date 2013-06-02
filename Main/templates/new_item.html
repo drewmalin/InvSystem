@@ -4,6 +4,12 @@
         $(document).ready(function() {
             $('#primary_vendor_dropdown').select2({
                 placeholder: "Select Primary Vendor",
+                {% if item.snapshots[0].primary_vendor.id %}
+                initSelection: function(element, callback) {
+                    var obj={"id":"{{item.snapshots[0].primary_vendor.id}}", "text":"{{item.snapshots[0].primary_vendor.name}}"};
+                    callback(obj);
+                },
+                {% endif %}
                 ajax: {
                     url: "/api/vendors",
                     dataType: "json",
@@ -17,6 +23,12 @@
             });
             $('#secondary_vendor_dropdown').select2({
                 placeholder: "Select Secondary Vendor",
+                {% if item.snapshots[0].secondary_vendor.id %}
+                initSelection: function(element, callback) {
+                    var obj={"id":"{{item.snapshots[0].secondary_vendor.id}}", "text":"{{item.snapshots[0].secondary_vendor.name}}"};
+                    callback(obj);
+                },
+                {% endif %}
                 ajax: {
                     url: "/api/vendors",
                     dataType: "json",
@@ -66,11 +78,11 @@
                             <dt> Reorder Quantity<font color="red">*</font>:
                             <dd> <input name="reorder_quantity" type="number" size="40" value={{item.snapshots[0].reorder_quantity}} />
                             <dt> Primary Vendor<font color = "red">*</font>:
-                            <dd> <input name="primary_vendor" id="primary_vendor_dropdown" style="width: 300px" />
+                            <dd> <input name="primary_vendor" id="primary_vendor_dropdown" value={{item.snapshots[0].primary_vendor.id}} style="width: 300px" />
                             <dt> Price<font color = "red">*</font>:
                             <dd> <input name="primary_vendor_p" type="float" size="40" value={{item.snapshots[0].primary_vendor_p}} />
                             <dt> Secondary Vendor:
-                            <dd> <input name="secondary_vendor" id="secondary_vendor_dropdown" style="width: 300px"/>
+                            <dd> <input name="secondary_vendor" id="secondary_vendor_dropdown" value={{item.snapshots[0].secondary_vendor.id}} style="width: 300px"/>
                             <dt> Price:
                             <dd> <input name="secondary_vendor_p" type="float" size="40" value={{item.snapshots[0].secondary_vendor_p}} />
                             <br><br>

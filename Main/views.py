@@ -92,6 +92,8 @@ class ItemMod(flask.views.MethodView):
         itemSnapshot.primary_vendor_p = flask.request.form['primary_vendor_p']
         itemSnapshot.primary_vendor = primary_vendor
 
+        print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'+flask.request.form['primary_vendor']
+
         if (flask.request.form['secondary_vendor'] != ""):
             secondary_vendor = session.query(Vendor).get(flask.request.form['secondary_vendor'])
             itemSnapshot.secondary_vendor = secondary_vendor
