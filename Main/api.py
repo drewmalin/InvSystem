@@ -53,9 +53,12 @@ class QuantityAPI(flask.views.MethodView):
         date_list = []
 
         item = session.query(Item).get(item_id)
+        uniqueQuantity = -1
         for snap in reversed(item.snapshots):
-            quantity_list.append(snap.quantity_on_hand)
-            date_list.append(snap.timestamp.strftime('%b %d'))
+            if snap.quantity_on_hand != uniqueQuantity:
+                uniqueQuantity = snap.quantity_on_hand
+                quantity_list.append(snap.quantity_on_hand)
+                date_list.append(snap.timestamp.strftime('%b %d'))
         
         data = getQuantityData(item, quantity_list)
 

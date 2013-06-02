@@ -19,7 +19,7 @@ $(function() {
         chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'quantity_chart',
-                type: 'column',
+                type: 'line',
                 marginRight: 50
             },
             title: {
