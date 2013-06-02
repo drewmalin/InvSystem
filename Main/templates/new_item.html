@@ -56,9 +56,9 @@
                     <form action="/item/edit/{{item.id}}" method="POST">
                         <dl>
                             <dt> Name<font color="red">*</font>:
-                            <dd> <input name="name" type="text" size="40" value={{item.snapshots[0].name}} />
+                            <dd> <input name="name" type="text" size="40" value="{{item.snapshots[0].name}}" />
                             <dt> Num<font color="red">*</font>:
-                            <dd> <input name="num" type="text" size="40" value={{item.snapshots[0].num}} />
+                            <dd> <input name="num" type="text" size="40" value="{{item.snapshots[0].num}}" />
                             <dt> Quantity on hand<font color="red">*</font>:
                             <dd> <input name="quantity" type="number" size="40" value={{item.snapshots[0].quantity_on_hand}}  />
                             <dt> Reorder Point<font color="red">*</font>:
