@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 {% block body %}
+    <script>
+        $(document).ready(function() {
+            $('#modal_vendor_dropdown').select2({
+                placeholder: "Select Primary Vendor",
+                ajax: {
+                    url: "/api/vendors",
+                    dataType: "json",
+                    data: function(term, page) {
+                        return {q: term}
+                    },
+                    results: function(data, page) {
+                        return {results: data.results};
+                    }
+                }
+            });
+        });
+    </script>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span2">
@@ -25,30 +42,29 @@
                             <h5>Total Quantity on Hand: <strong>{{item.snapshots[0].quantity_on_hand}}</strong></h5>
                         </div>
                         <div class = "span2">
-        <!-- Button to trigger Modal -->
+                            <!-- Button to trigger Modal -->
                             <a href = "#update_quantity" role="button" class="btn" data-toggle="modal">Update Quantity</a>
                         </div> 
-        <!--Update Quantity Modal -->
-            <div id = "update_quantity" class = "modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class = "modal-header">
-                    <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
-                    <h3>Change Quantity</h3>
-                </div>
-                <div class = "modal-body">
-                <form action="/item/edit/{{item.id}}" method="POST">
-                    <p>
-                        <dl>
-                        <dt> Enter New Quantity
-                    <dd> <input name="quantity" type="number" size="40"></p>
-                        </dl>
-                </form>
-                </div>
-                <div class = "modal-footer">
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                    <a href = "/item/id" class = "btn">Save</a>
-                </div>
-            </div>
-        <!-- End Modal -->
+                        <!--Update Quantity Modal -->
+                        <div id="update_quantity" class="modal hide fade">
+                            <form id="modal-form" action="/api/quantity/{{item.id}}" method="POST">
+                                <div class="modal-header">
+                                    <a class="close" data-dismiss="modal">x</a>
+                                    <h3>Change Quantity</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <dl>
+                                        <dt> New Quantity:
+                                        <dd> <input name="quantity" type="number" size="40">
+                                    </dl>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                                    <input type="submit" value="Save" class="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+                        <!-- End Modal -->
                     </div>
                     <div class = "row">
                         <div class = "span5">
@@ -64,50 +80,50 @@
                         <div class = "span5">
                             Primary Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
                             <br>
-                            Price: $ {{item.snapshots[0].primary_vendor_p}}
+                            Price: ${{item.snapshots[0].primary_vendor_p}}
                             <br> 
-                            QTY Purchased:
+                            QTY Purchased:{{item.snapshots[0].primary_vendor_q}}
                         </div>
                         <div class = "span3">
                             Secondary Vendor: <a href="/vendor/{{item.snapshots[0].secondary_vendor.id}}">{{item.snapshots[0].secondary_vendor.name}}</a>
                             <br>
-                            Price: $ {{item.snapshots[0].secondary_vendor_p}}
+                            Price: ${{item.snapshots[0].secondary_vendor_p}}
                             <br>
-                            QTY Purchased:
+                            QTY Purchased:{{item.snapshots[0].secondary_vendor_q}}
                         </div>
                         <div class = "span2">
-            <!-- Button to trigger Modal -->
-                    <a href = "#new_purchase" role="button" class="btn" data-toggle="modal">New Purchase</a>
-                        </div> 
+                        <!-- Button to trigger Modal -->
+                        <a href = "#new_purchase" role="button" class="btn" data-toggle="modal">New Purchase</a>
+                            </div> 
+                        </div>
+                        <!-- Purchase Modal -->
+                        <div id="new_purchase" class="modal hide fade">
+                            <form id="modal-form" action="/api/vendor/{{item.id}}" method="POST">
+                                <div class="modal-header">
+                                    <a class="close" data-dismiss="modal">x</a>
+                                    <h3>New Purchase</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <dl>
+                                        <dt> Select Vendor:
+                                        <dd> <input name="primary_vendor" id="modal_vendor_dropdown" style="width: 300px" />
+                                        <dt> Select Quantity:
+                                        <dd> <input name="quantity" type="number" size="40" />
+                                    </dl>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                                    <input type="submit" value="Save" class="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+                        <!-- End Modal -->
+                        <br><br>
+                        <div id="quantity_chart" style="min-width: 400px; margin: 0 auto marginBottom: 120" iid="{{item.id}}"></div>
+                        <br><br>
+                        <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
+                        <a class = "btn" href="/item/history/{{item.id}}">History</a>
                     </div>
-        <!--New Purchase Modal -->
-            <div id = "new_purchase" class = "modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class = "modal-header">
-                    <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
-                    <h3>New Purchase</h3>
-                </div>
-                <div class = "modal-body">
-                    <form action = "#" method = "POST">
-                    <p>
-                        <dl>
-                            <dt> Select Vendor
-                                <dd> <input name = "select_vendor" id = "vendor_dropdown">
-                            <dt> Select Quantity
-                                <dd> <input name = "quantity" type = "number" size = "40">
-                        </dl>
-                    </p>
-                </div>
-                <div class = "modal-footer">
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                    <a href = "/item/id" class = "btn">Save</a>
-                </div>
-            </div>
-        <!-- End Modal --> 
-                    <br><br>
-                    <div id="quantity_chart" style="min-width: 400px; margin: 0 auto marginBottom: 120" iid="{{item.id}}"></div>
-                    <br><br>
-                    <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
-                    <a class = "btn" href="/item/history/{{item.id}}">History</a>
                 {% else %}
                     <p>Something went wrong!</p>
                 {% endif %}

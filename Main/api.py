@@ -4,7 +4,7 @@ from decorators     import *
 from models         import *
 from datetime       import datetime, date
 
-class VendorAPI(flask.views.MethodView):
+class VendorsAPI(flask.views.MethodView):
     @crossdomain(origin='*')
     def get(self, vendor_id):
         vendor_filter = request.args.get("q")
@@ -22,20 +22,74 @@ class VendorAPI(flask.views.MethodView):
             vendor_list.append(vendor_dict)
         return flask.jsonify(results=vendor_list)
 
+class VendorAPI(flask.views.MethodView):
+    @crossdomain(origin='*')
+    def post(self, item_id):
+        
+        if item_id == None or flask.request.form['primary_vendor'] == "" or flask.request.form['quantity'] == "":
+            return ""
+
+        item = session.query(Item).get(item_id)
+        vendor = session.query(Vendor).get(flask.request.form['primary_vendor'])
+        itemSnapshot = getNextSnapshot(item)
+
+        itemSnapshot.primary_vendor = vendor
+        itemSnapshot.primary_vendor_q = flask.request.form['quantity']
+
+        item.snapshots.append(itemSnapshot)
+        session.commit()
+
+        return flask.redirect(flask.url_for('item', item_id=item_id))
+
+
 class QuantityAPI(flask.views.MethodView):
     @crossdomain(origin='*')
     def get(self, item_id):
+        
+        if item_id == None:
+            return ""
+
         quantity_list = []
         date_list = []
 
         item = session.query(Item).get(item_id)
         for snap in reversed(item.snapshots):
             quantity_list.append(snap.quantity_on_hand)
-            date_list.append(snap.timestamp.strftime('%m/%d/%Y %I:%M:%S %p'))
+            date_list.append(snap.timestamp.strftime('%b %d'))
         
         data = getQuantityData(item, quantity_list)
 
         return flask.jsonify(data=data, dates=date_list)
+    
+    @crossdomain(origin='*')
+    def post(self, item_id):
+        
+        if item_id == None or flask.request.form['quantity'] == "":
+            return flask.render_template('index.html')
+
+        item = session.query(Item).get(item_id)
+        itemSnapshot = getNextSnapshot(item)
+        itemSnapshot.quantity_on_hand = flask.request.form['quantity']
+
+        item.snapshots.append(itemSnapshot)
+        session.commit()
+        return flask.redirect(flask.url_for('item', item_id=item_id))
+
+def getNextSnapshot(item):
+    oldSnapshot = item.snapshots[0]
+    newSnapshot = ItemSnapshot(oldSnapshot.name,
+        oldSnapshot.num,
+        oldSnapshot.quantity_on_hand,
+        oldSnapshot.reorder_quantity,
+        oldSnapshot.reorder_point)
+    newSnapshot.primary_vendor_p = oldSnapshot.primary_vendor_p
+    newSnapshot.primary_vendor_q = oldSnapshot.primary_vendor_q
+    newSnapshot.primary_vendor = oldSnapshot.primary_vendor
+    newSnapshot.secondary_vendor_p = oldSnapshot.secondary_vendor_p
+    newSnapshot.secondary_vendor_q = oldSnapshot.secondary_vendor_q
+    newSnapshot.secondary_vendor = oldSnapshot.secondary_vendor
+
+    return newSnapshot
 
 def getQuantityData(item, quantity_list):
     dataList = []
