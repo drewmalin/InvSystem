@@ -4,24 +4,15 @@
         <div class="row-fluid">
             <div class="span2">
                 <!-- Sidebar -->
+                <br><br>
                 <ul class="nav nav-list">
                     <li><a href="/">Search</a></li>
                     <li><a href="#">Reports</a></li>
                     <li><a href="/item/edit/">Enter Item</a></li>
-                    <li><a href="/vendor/edit">Enter Vendor</a></li>
+                    <li><a href="/vendor/edit/">Enter Vendor</a></li>
                     <li class="divider"></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
             </div>
             <div class="span10">
                 <!-- Main content -->
-                {% if vendor %}
-                    <h1>{{vendor.name}}</h1>
-                    <a class="btn" href="/vendor/edit/{{vendor.id}}">Edit</a>
-                {% else %}
-                    <p>Something went wrong!</p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-{% endblock %}

@@ -4,10 +4,9 @@
         <div class="row-fluid">
             <div class="span2">
                 <!-- Sidebar -->
-                <br><br>
                 <ul class="nav nav-list">
                     <li><a href="/">Search</a></li>
-                    <li><a href="#">Generate Report</a></li>
+                    <li><a href="#">Reports</a></li>
                     <li><a href="/item/edit/">Enter Item</a></li>
                     <li><a href="/vendor/edit/">Enter Vendor</a></li>
                     <li class="divider"></li>
@@ -40,7 +39,7 @@
                     <p>
                         <dl>
                         <dt> Enter New Quantity
-                    <dd> <input name="quantity" type="number" size="40"</p>
+                    <dd> <input name="quantity" type="number" size="40"></p>
                         </dl>
                 </form>
                 </div>
@@ -77,8 +76,33 @@
                             QTY Purchased:
                         </div>
                         <div class = "span2">
-                            <a class = "btn" href = "#">New Purchase</a>
-                    </div> 
+            <!-- Button to trigger Modal -->
+                    <a href = "#new_purchase" role="button" class="btn" data-toggle="modal">New Purchase</a>
+                        </div> 
+                    </div>
+        <!--New Purchase Modal -->
+            <div id = "new_purchase" class = "modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class = "modal-header">
+                    <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
+                    <h3>New Purchase</h3>
+                </div>
+                <div class = "modal-body">
+                    <form action = "#" method = "POST">
+                    <p>
+                        <dl>
+                            <dt> Select Vendor
+                                <dd> <input name = "select_vendor" id = "vendor_dropdown">
+                            <dt> Select Quantity
+                                <dd> <input name = "quantity" type = "number" size = "40">
+                        </dl>
+                    </p>
+                </div>
+                <div class = "modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <a href = "/item/id" class = "btn">Save</a>
+                </div>
+            </div>
+        <!-- End Modal --> 
                     <br><br>
                     <div id="quantity_chart" style="min-width: 400px; margin: 0 auto marginBottom: 120" iid="{{item.id}}"></div>
                     <br><br>
