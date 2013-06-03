@@ -47,8 +47,10 @@
             <form id="modal-form" action="/api/vendor/{{item.id}}" method="POST">
                 <div class="modal-header">
                     <a class="close" data-dismiss="modal">x</a>
-                        <h3>Detail of:</h3>
                         <dl>
+                            <dt><h3>Detail of:
+                            <dd>{{ snapshot.name }}</h3>
+                            <br>
                             <dt>Timestamp:
                             <dd>{{ snapshot.timestamp }}
                         </dl>
@@ -63,6 +65,12 @@
                 <br><br>
                     <dt>Reorder Quantity:
                     <dd>{{ snapshot.reorder_quantity}}
+                <br><br>
+                    <dt>Primary Vendor Price:
+                    <dd>{{ snapshot.primary_vendor_p }}
+                <br>
+                    <dt>Secondary Vendor Price:
+                    <dd>{{ snapshot.secondary_vendor_p}}
                 </dl>
                 </div>
                 <div class="modal-footer">
