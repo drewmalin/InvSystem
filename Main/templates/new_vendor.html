@@ -23,6 +23,7 @@
                     </div>
                 {% endif %}
                 {% if vendor %}
+                <h3>Enter Vendor</h3>
                     <form action="/vendor/edit/{{vendor.id}}" method="POST">
                         <dl>
                             <dt>Name<font color="red">*</font>:
@@ -35,6 +36,7 @@
                         </dl>
                     </form>
                 {% else %}
+                <h3>Enter Vendor</h3>
                     <form action="/vendor/edit/" method="POST">
                         <dl>
                             <dt>Name<font color="red">*</font>:
