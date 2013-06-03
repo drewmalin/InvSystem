@@ -3,6 +3,10 @@ import flask, flask.views
 from decorators     import *
 from models         import *
 from datetime       import datetime, date
+import json
+import csv
+from Tkinter        import Tk
+from tkFileDialog   import askopenfilename
 
 class VendorsAPI(flask.views.MethodView):
     @crossdomain(origin='*')
@@ -115,14 +119,33 @@ class ItemVendorsAPI(flask.views.MethodView):
 class ReportAPI(flask.views.MethodView):
     @crossdomain(origin='*')
     def get(self, report_id):
+        item_list = [] 
         if report_id == 0:
             # Reorder Report
             items = session.query(Item)
             items = [x for x in items if x.snapshots[0].quantity_on_hand <= x.snapshots[0].reorder_point]
+            item_list = items
         elif report_id == 1:
             # Item Report
             items = session.query(Item)
+            item_list = items
 
+        if flask.request.args["export"] and flask.request.args["export"] == "t":
+            filename = "test.csv"
+            f = csv.writer(open('csv/'+filename, 'wb+'))
+            f.writerow(['Name', 'Catalog Number', 'Quantity On Hand', 'Reorder Point', 'Primary Vendor', 'Secondary Vendor'])
+            for item in item_list:
+                sv = item.snapshots[0].secondary_vendor
+                svn = ""
+                if sv:
+                    svn = sv.name
+                f.writerow([item.snapshots[0].name,
+                    item.snapshots[0].num,
+                    item.snapshots[0].quantity_on_hand,
+                    item.snapshots[0].reorder_quantity,
+                    item.snapshots[0].primary_vendor.name,
+                    svn])
+        
         return flask.render_template('reports.html', items=items)
 
 def getNextSnapshot(item):
