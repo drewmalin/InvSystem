@@ -67,6 +67,9 @@ app.add_url_rule('/api/quantity/<int:item_id>',
 app.add_url_rule('/api/vendor/<int:item_id>',
     view_func=VendorAPI.as_view('vendor_api'),
     methods=['POST'])
+app.add_url_rule('/api/item/<int:item_id>/vendors',
+    view_func=ItemVendorsAPI.as_view('item_vendors_api'),
+    methods=['GET'])
 
 from models import *
 Base.metadata.create_all(engine)

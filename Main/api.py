@@ -35,15 +35,17 @@ class VendorAPI(flask.views.MethodView):
     @crossdomain(origin='*')
     def post(self, item_id):
         
-        if item_id == None or flask.request.form['primary_vendor'] == "" or flask.request.form['quantity'] == "":
+        if item_id == None or flask.request.form['vendor'] == "" or flask.request.form['quantity'] == "":
             return ""
 
         item = session.query(Item).get(item_id)
-        vendor = session.query(Vendor).get(flask.request.form['primary_vendor'])
+        vendor = session.query(Vendor).get(flask.request.form['vendor'])
         itemSnapshot = getNextSnapshot(item)
 
-        itemSnapshot.primary_vendor = vendor
-        itemSnapshot.primary_vendor_q = flask.request.form['quantity']
+        if int(flask.request.form['vendor']) == int(item.snapshots[0].primary_vendor.id):
+            itemSnapshot.primary_vendor_q = flask.request.form['quantity']
+        else:
+            itemSnapshot.secondary_vendor_q = flask.request.form['quantity']
 
         item.snapshots.append(itemSnapshot)
         session.commit()
@@ -86,6 +88,29 @@ class QuantityAPI(flask.views.MethodView):
         item.snapshots.append(itemSnapshot)
         session.commit()
         return flask.redirect(flask.url_for('item', item_id=item_id))
+
+class ItemVendorsAPI(flask.views.MethodView):
+    @crossdomain(origin='*')
+    def get(self, item_id):
+        item = session.query(Item).get(item_id)
+        vendor_list = []
+        p_vendor_dict = {}
+        s_vendor_dict = {}
+
+        # Primary
+        vendor = item.snapshots[0].primary_vendor
+        if vendor != None:
+            p_vendor_dict["id"] = vendor.id
+            p_vendor_dict["text"] = vendor.name
+            vendor_list.append(p_vendor_dict)
+
+        # Secondary
+        vendor = item.snapshots[0].secondary_vendor
+        if vendor != None:
+            s_vendor_dict["id"] = vendor.id
+            s_vendor_dict["text"] = vendor.name
+            vendor_list.append(s_vendor_dict) 
+        return flask.jsonify(results=vendor_list)
 
 def getNextSnapshot(item):
     oldSnapshot = item.snapshots[0]

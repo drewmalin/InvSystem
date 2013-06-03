@@ -3,9 +3,9 @@
     <script>
         $(document).ready(function() {
             $('#modal_vendor_dropdown').select2({
-                placeholder: "Select Primary Vendor",
+                placeholder: "Select Vendor",
                 ajax: {
-                    url: "/api/vendors",
+                    url: "/api/item/{{item.id}}/vendors",
                     dataType: "json",
                     data: function(term, page) {
                         return {q: term}
@@ -106,7 +106,7 @@
                                 <div class="modal-body">
                                     <dl>
                                         <dt> Select Vendor:
-                                        <dd> <input name="primary_vendor" id="modal_vendor_dropdown" style="width: 300px" />
+                                        <dd> <input name="vendor" id="modal_vendor_dropdown" style="width: 300px" />
                                         <dt> Select Quantity:
                                         <dd> <input name="quantity" type="number" size="40" />
                                     </dl>
