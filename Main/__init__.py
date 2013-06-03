@@ -55,6 +55,9 @@ app.add_url_rule('/reports/',
                  methods = ['GET', 'POST'])
 
 ######      API         #######
+app.add_url_rule('/api/reports/<int:report_id>',
+    view_func=ReportAPI.as_view('reports_api'),
+    methods = ['GET'])
 app.add_url_rule('/api/vendors/',
     defaults={'vendor_id': None},
     view_func=VendorsAPI.as_view('vendors_api'),

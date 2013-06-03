@@ -15,20 +15,41 @@
             </div>
             <div class="span10">
                 <!-- Main content -->
-            <h3>Reports</h3>
-            <hr>
-            <dl>
-                <dt>Reorder Report  
-                    <a class = "btn" href = "#">RUN</a>
-            <br><br>
-                <dt>Item Report
-                <a class = "btn" href = "#">RUN</a>
-            </dl>
+                <h3>Reports</h3>
+                <hr>
+                <dl>
+                    <dt>Reorder Report  
+                    <a class = "btn" href = "/api/reports/0">RUN</a>
+                    <br><br>
+                    <dt>Item Report
+                    <a class = "btn" href = "/api/reports/1">RUN</a>
+                </dl>
             </div>
-            <hr><hr>
-                <table class = "table table-hover table-bordered table-condensed">
-                    
-                </table>
+            <hr>
+            {% if items %}
+            <table class = "table table-hover table-bordered table-condensed">
+                <tr>   
+                    <th>Name</th>
+                    <th>Catalog Number</th>
+                    <th>Quantity On Hand</th>
+                    <th>Reorder Point</th>
+                    <th>Reorder Quantity</th>
+                    <th>Primary Vendor</th>
+                    <th>Secondary Vendor</th>
+                </tr>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.snapshots[0].name }}</td>
+                    <td>{{ item.snapshots[0].num }}</td>
+                    <td>{{ item.snapshots[0].quantity_on_hand }}</td>
+                    <td>{{ item.snapshots[0].reorder_point}}</td>
+                    <td>{{ item.snapshots[0].reorder_quantity}}</td>
+                    <td>{{ item.snapshots[0].primary_vendor.name }}</td>
+                    <td>{{ item.snapshots[0].secondary_vendor.name }}<a>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

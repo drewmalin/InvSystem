@@ -112,6 +112,19 @@ class ItemVendorsAPI(flask.views.MethodView):
             vendor_list.append(s_vendor_dict) 
         return flask.jsonify(results=vendor_list)
 
+class ReportAPI(flask.views.MethodView):
+    @crossdomain(origin='*')
+    def get(self, report_id):
+        if report_id == 0:
+            # Reorder Report
+            items = session.query(Item)
+            items = [x for x in items if x.snapshots[0].quantity_on_hand <= x.snapshots[0].reorder_point]
+        elif report_id == 1:
+            # Item Report
+            items = session.query(Item)
+
+        return flask.render_template('reports.html', items=items)
+
 def getNextSnapshot(item):
     oldSnapshot = item.snapshots[0]
     newSnapshot = ItemSnapshot(oldSnapshot.name,
