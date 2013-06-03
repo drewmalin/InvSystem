@@ -181,3 +181,10 @@ class VendorMod(flask.views.MethodView):
             flask.flash("Vendor name is required")
             error = 1
         return error
+
+class ReportView(flask.views.MethodView):
+    def get(self):
+        return flask.render_template('reports.html')
+        
+    def post(self):
+        pass

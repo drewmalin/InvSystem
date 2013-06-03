@@ -49,6 +49,11 @@ app.add_url_rule('/vendor/edit/<int:vendor_id>',
                  view_func = VendorMod.as_view('vendor_mod'),
                  methods = ['GET', 'POST'])
 
+######      REPORT      #######
+app.add_url_rule('/reports/',
+                 view_func = ReportView.as_view('reports'),
+                 methods = ['GET', 'POST'])
+
 ######      API         #######
 app.add_url_rule('/api/vendors/',
     defaults={'vendor_id': None},
