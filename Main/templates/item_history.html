@@ -15,35 +15,63 @@
                     <li><a href="#">Settings</a></li>
                 </ul>
             </div>
+    <!-- Main Content-->
             <div class="span10">
     <br>
+    <!-- 
     <a class = "btn" href="/">Home</a>
-    <a class = "btn" href="/item/{{item.id}}">Item</a>
+    -->
+    <a class = "btn" href="/item/{{item.id}}">Back to Item</a>
     <br><br>
-    <div class = "container">
-    
+    <div class = "container">    
     <table class = "table table-hover table-bordered table-condensed">
         <tr>
+            <th>View Detail</th>
             <th>Name</th>
-            <th>Catalog Number</th>
             <th>Quantity On Hand</th>
-            <th>Reorder Point</th>
-            <th>Reorder Quantity</th>
             <th>Primary Vendor</th>
             <th>Secondary Vendor</th>
             <th>Timestamp</th>
         </tr>
        {% for snapshot in item.snapshots %}
         <tr>
+        <!-- Modal Trigger -->
+            <td><a href = "#view_detail" role="button" class="btn" data-toggle="modal">View Detail</a></td>
             <td>{{ snapshot.name }}</td>
-            <td>{{ snapshot.num }}</td>
             <td>{{ snapshot.quantity_on_hand }}</td>
-            <td>{{ snapshot.reorder_point}}</td>
-            <td>{{ snapshot.reorder_quantity}}</td>
             <td>{{ snapshot.primary_vendor.name }}</td>
             <td>{{ snapshot.secondary_vendor.name}}</td>
             <td>{{ snapshot.timestamp }}</td>
         </tr>
+    <!-- View Detail Modal -->
+        <div id="view_detail" class="modal hide fade">
+            <form id="modal-form" action="/api/vendor/{{item.id}}" method="POST">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">x</a>
+                        <h3>Detail of:</h3>
+                        <dl>
+                            <dt>Timestamp:
+                            <dd>{{ snapshot.timestamp }}
+                        </dl>
+                </div>
+                <div class="modal-body">
+                <dl>
+                    <dt>Catalog Number:
+                    <dd>{{ snapshot.num }}
+                <br><br>
+                    <dt>Reorder Point:
+                    <dd>{{ snapshot.reorder_point}}
+                <br><br>
+                    <dt>Reorder Quantity:
+                    <dd>{{ snapshot.reorder_quantity}}
+                </dl>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
         {% endfor %}
     {% else %}
         <p>Something went wrong!</p>

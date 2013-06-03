@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 {% block body %}
+ <script>
+        $(document).ready(function() {
+            $('#vendor_dropdown').select2({
+                placeholder: "Select Vendor",
+                ajax: {
+                    url: "/api/vendors",
+                    dataType: "json",
+                    data: function(term, page) {
+                        return {q: term}
+                    },
+                    results: function(data, page) {
+                        return {results: data.results};
+                    }
+                }
+            });
+        });
+    </script>
     <div class = "container-fluid">
         <div class="row-fluid">
             <div class="span2">
@@ -15,10 +32,42 @@
             </div>
             <div class="span10">
                 <!-- Main content -->
+    <!--Search Bar -->
+            <h3>Search</h3>
+            <dl>
                 <form class = "form-inline" action="/" method="POST">
-                    Search: <input name="search" type="text" size="100" />
+                <br>
+                <div class = "span2">
+                    Name: 
+                </div>
+                    <input name="search" type="text" size="100" />
+                <br><br>
+                <div class = "span2">
+                    Catalog Number:
+                </div>
+                    <input name = "search" type = "text" size = "100" />
+                    <br><br>
+                <div class = "span2">
+                    Vendor: 
+                </div>
+                    <dd> <input name = "vendor" id = "vendor_dropdown" size = "width: 300px" />
+            </dl>
+                <div class = "span2">
+                    Quantity on Hand:
+                </div>
+                    <input type = "number" class = "span1" />
+                    Between
+                    <input type = "number" class = "span1" />
+                <br><br>
+                <div class = "span2">
+            <label class = "checkbox">
+                <input type = "checkbox"> Must Match All
+            </lable>
+                </div>
+            <br><br> 
                     <input name="search" class = "btn" type="submit" value="Submit" />
                 </form>
+    <!--End Search Box-->
               <!--  <div class = "dropdown">
                     <a class="btn" id = "dLabel" role="dropdown-toggle" data-toggle="dropdown" href="#">Reports
                         <b class = "caret" ></b>

@@ -36,10 +36,12 @@
                     <h2>{{item.snapshots[0].name}}</h2>
                     <div class = "row">
                         <div class = "span5">
+                            <div class = "mycontent-left">
+                            </div>
                             <h5>Catalog Number: {{item.snapshots[0].num}}</h5>
                         </div>
                         <div class = "span3">
-                            <h5>Total Quantity on Hand: <strong>{{item.snapshots[0].quantity_on_hand}}</strong></h5>
+                            <h5>Total Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}</h5>
                         </div>
                         <div class = "span2">
                             <!-- Button to trigger Modal -->
@@ -94,7 +96,7 @@
                         <div class = "span2">
                         <!-- Button to trigger Modal -->
                         <a href = "#new_purchase" role="button" class="btn" data-toggle="modal">New Purchase</a>
-                            </div> 
+                        </div> 
                         </div>
                         <!-- Purchase Modal -->
                         <div id="new_purchase" class="modal hide fade">
@@ -123,6 +125,7 @@
                         <br><br>
                         <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>
                         <a class = "btn" href="/item/history/{{item.id}}">History</a>
+                        <br><br>
                     </div>
                 {% else %}
                     <p>Something went wrong!</p>
