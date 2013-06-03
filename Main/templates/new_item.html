@@ -48,7 +48,7 @@
                 <!-- Sidebar -->
                 <ul class="nav nav-list">
                     <li><a href="/">Search</a></li>
-                    <li><a href="#">Reports</a></li>
+                    <li><a href="/reports/">Reports</a></li>
                     <li class="active"><a href="/item/edit/">Enter Item</a></li>
                     <li><a href="/vendor/edit/">Enter Vendor</a></li>
                     <li class="divider"></li>
@@ -65,6 +65,7 @@
                     </div>
                 {% endif %}
                 {% if item %}
+                <h3>Edit Item</h3>
                     <form action="/item/edit/{{item.id}}" method="POST">
                         <dl>
                             <dt> Name<font color="red">*</font>:
@@ -101,6 +102,7 @@
                         </dl>
                     </form>
                 {% else %}
+                <h3>Enter New Item</h3>
                     <form action="/item/edit/" method="POST">
                         <dl>
                             <dt> Name<font color="red">*</font>: 
