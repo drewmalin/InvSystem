@@ -36,47 +36,32 @@
             <h3>Search</h3>
             <dl>
                 <form class = "form-inline" action="/" method="POST">
-                <br>
-                <div class = "span2">
-                    Name: 
-                </div>
-                    <input name="search" type="text" size="100" />
-                <br><br>
-                <div class = "span2">
-                    Catalog Number:
-                </div>
-                    <input name = "search" type = "text" size = "100" />
+                    <br>
+                    <div class = "span2">
+                        Name: 
+                    </div>
+                    <input name="search_name" type="text" size="100" />
                     <br><br>
-                <div class = "span2">
-                    Vendor: 
-                </div>
-                    <dd> <input name = "vendor" id = "vendor_dropdown" size = "width: 300px" />
+                    <div class = "span2">
+                        Catalog Number:
+                    </div>
+                    <input name="search_catalog_num" type = "text" size = "100" />
+                    <br><br>
+                    <div class = "span2">
+                        Vendor: 
+                    </div>
+                    <dd> <input name="search_vendor" id="vendor_dropdown" value="" size="width: 300px" />
             </dl>
-                <div class = "span2">
-                    Quantity on Hand:
-                </div>
-                    <input type = "number" class = "span1" />
-                    Between
-                    <input type = "number" class = "span1" />
-                <br><br>
-                <div class = "span2">
-            <label class = "checkbox">
-                <input type = "checkbox"> Must Match All
-            </lable>
-                </div>
-            <br><br> 
-                    <input name="search" class = "btn" type="submit" value="Submit" />
-                </form>
+            <div class = "span2">
+                Quantity on Hand:
+            </div>
+            <input name="search_quantity_from" type = "number" class = "span1" />
+                Between
+            <input name="search_quantity_to" type = "number" class = "span1" />
+            <br><br>
+            <input name="search" class = "btn" type="submit" value="Submit" />
+            </form>
     <!--End Search Box-->
-              <!--  <div class = "dropdown">
-                    <a class="btn" id = "dLabel" role="dropdown-toggle" data-toggle="dropdown" href="#">Reports
-                        <b class = "caret" ></b>
-                    </a>
-                    <ul class = "dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        <li><a href = "#">Usage</a></li>
-                        <li><a href = "#">Reorder</a></li>
-                    </ul>
-                </div> -->
                 <hr>
                 <table class = "table table-hover table-bordered table-condensed">
                     <tr>

@@ -8,12 +8,25 @@ class Index(flask.views.MethodView):
         items = session.query(Item)
         return flask.render_template('home.html', items = items)
     def post(self):
-        if flask.request.form['search'] == "":
-            flask.flash("Search query is required!")
-            return flask.redirect(flask.url_for('index'))
-        else:
-            items = session.query(Item).filter(Item.name == flask.request.form['search'])
-            return flask.render_template('home.html', items = items)
+        search_name     = flask.request.form['search_name'].strip()
+        search_cat      = flask.request.form['search_catalog_num'].strip()
+        search_vendor   = flask.request.form['search_vendor'].strip()
+        search_q_from   = flask.request.form['search_quantity_from'].strip()
+        search_q_to     = flask.request.form['search_quantity_to'].strip()
+        
+        items = session.query(Item)
+        if search_name:
+            items = [x for x in items if search_name in x.snapshots[0].name]
+        if search_cat:
+            items = [x for x in items if search_cat in x.snapshots[0].num]
+        if search_vendor:
+            items = [x for x in items if int(search_vendor) == x.snapshots[0].primary_vendor.id]
+        if search_q_from:
+            items = [x for x in items if int(search_q_from) <= x.snapshots[0].quantity_on_hand]
+        if search_q_to:
+            items = [x for x in items if int(search_q_to) >= x.snapshots[0].quantity_on_hand]
+
+        return flask.render_template('home.html', items = items)
         
 class ItemView(flask.views.MethodView):
     def get(self, item_id):
