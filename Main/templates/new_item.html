@@ -4,7 +4,7 @@
         $(document).ready(function() {
             $('#primary_vendor_dropdown').select2({
                 placeholder: "Select Primary Vendor",
-                {% if item.snapshots[0].primary_vendor.id %}
+                {% if item and item.snapshots[0].primary_vendor and item.snapshots[0].primary_vendor.id %}
                 initSelection: function(element, callback) {
                     var obj={"id":"{{item.snapshots[0].primary_vendor.id}}", "text":"{{item.snapshots[0].primary_vendor.name}}"};
                     callback(obj);
@@ -23,7 +23,7 @@
             });
             $('#secondary_vendor_dropdown').select2({
                 placeholder: "Select Secondary Vendor",
-                {% if item.snapshots[0].secondary_vendor.id %}
+                {% if item and item.snapshots[0].primary_vendor and item.snapshots[0].secondary_vendor.id %}
                 initSelection: function(element, callback) {
                     var obj={"id":"{{item.snapshots[0].secondary_vendor.id}}", "text":"{{item.snapshots[0].secondary_vendor.name}}"};
                     callback(obj);
@@ -82,9 +82,17 @@
                             <dt> Price<font color = "red">*</font>:
                             <dd> <input name="primary_vendor_p" type="float" size="40" value={{item.snapshots[0].primary_vendor_p}} />
                             <dt> Secondary Vendor:
+                            {% if item.snapshots[0].secondary_vendor %}
                             <dd> <input name="secondary_vendor" id="secondary_vendor_dropdown" value={{item.snapshots[0].secondary_vendor.id}} style="width: 300px"/>
+                            {% else %}
+                            <dd> <input name="secondary_vendor" id="secondary_vendor_dropdown" style="width: 300px"/>
+                            {% endif %}
                             <dt> Price:
+                            {% if item.snapshots[0].secondary_vendor_p %}
                             <dd> <input name="secondary_vendor_p" type="float" size="40" value={{item.snapshots[0].secondary_vendor_p}} />
+                            {% else %}
+                            <dd> <input name="secondary_vendor_p" type="float" size="40" />
+                            {% endif %}
                             <br><br>
                             <dd> <font color="red">*</font> denotes a required field
                             <br><br>
