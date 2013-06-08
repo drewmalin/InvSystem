@@ -32,14 +32,14 @@ class ItemView(flask.views.MethodView):
     def get(self, item_id):
         if item_id != None:
             item = session.query(Item).get(item_id)
-            return flask.render_template('item.html', item = item)
+            return flask.render_template('item.html', item=item)
         else:
             return flask.redirect(flask.url_for('index'))
 
 class ItemHistory(flask.views.MethodView):
     def get(self, item_id):
         item = session.query(Item).get(item_id)
-        return flask.render_template('item_history.html', item = item)
+        return flask.render_template('item_history.html', item=item)
 
 class ItemMod(flask.views.MethodView):
     def get(self, item_id):
@@ -47,22 +47,22 @@ class ItemMod(flask.views.MethodView):
             item = session.query(Item).get(item_id)
         else:
             item = None
-        return flask.render_template('new_item.html', item = item)
+        return flask.render_template('new_item.html', item=item)
 
     def post(self, item_id):
         if item_id == None:
             item = self.createItem()
             if item == None:
-                return flask.render_template('new_item.html')
+                return flask.redirect(flask.url_for('item_mod'))
             else:
-                return flask.render_template('item.html', item = item)
+                return flask.redirect(flask.url_for('item', item_id=item_id))
         else:
             item = self.editItem(item_id)
             if item == None:
                 item = session.query(Item).get(item_id)
-                return flask.render_template('new_item.html', item = item)
+                return flask.redirect(flask.url_for('item_mod', item_id=item.id))
             else:
-                return flask.render_template('item.html', item = item)
+                return flask.redirect(flask.url_for('item', item_id=item.id))
 
     def createItem(self):
         if self.validateSubmission() != 0:
@@ -145,7 +145,7 @@ class VendorView(flask.views.MethodView):
     def get(self, vendor_id):
         if vendor_id != None:
             vendor = session.query(Vendor).get(vendor_id)
-            return flask.render_template('vendor.html', vendor = vendor)
+            return flask.render_template('vendor.html', vendor=vendor)
         else:
             return flask.redirect(flask.url_for('index'))
 
@@ -155,22 +155,22 @@ class VendorMod(flask.views.MethodView):
             vendor = session.query(Vendor).get(vendor_id)
         else:
             vendor = None
-        return flask.render_template('new_vendor.html', vendor = vendor)
+        return flask.render_template('new_vendor.html', vendor=vendor)
 
     def post(self, vendor_id):
         if vendor_id == None:
             vendor = self.createVendor()
             if vendor == None:
-                return flask.render_template('new_vendor.html')
+                return flask.redirect(flask.url_for('vendor_mod'))
             else:
-                return flask.render_template('vendor.html', vendor = vendor)
+                return flask.redirect(flask.url_for('vendor', vendor_id=vendor.id))
         else:
             vendor = self.editVendor(vendor_id)
             if vendor == None:
                 vendor = session.query(Vendor).get(vendor_id)
-                return flaks.render_template('new_vendor.html', vendor = vendor)
+                return flask.redirect(flask.url_for('vendor_mod', vendor_id=vendor.id))
             else:
-                return flask.render_template('vendor.html', vendor = vendor)
+                return flask.redirect(flask.url_for('vendor', vendor_id=vendor.id))
 
     def createVendor(self):
         if self.validateSubmission() != 0:
@@ -201,3 +201,60 @@ class ReportView(flask.views.MethodView):
         
     def post(self):
         pass
+
+class LotView(flask.views.MethodView):
+    def get(self, lot_id):
+        if lot_id != None:
+            lot = session.query(Lot).get(lot_id)
+            return flask.render_template('lot.html', lot=lot)
+        else:
+            return flask.redirect(flask.url_for('index'))
+
+    def post(self, lot_id):
+        pass
+
+class LotMod(flask.views.MethodView):
+    def get(self, lot_id):
+        if lot_id != None:
+            lot = session.query(Lot).get(lot_id)
+        else:
+            lot = None
+        return flask.render_template('new_lot.html', lot=lot)
+
+    def post(self, lot_id):
+        if lot_id == None:
+            lot = self.createLot()
+            if lot == None:
+                return flask.redirect(flask.url_for('lot_mod'))
+            else:
+                return flask.redirect(flask.url_for('lot', lot_id=lot.id))
+        else:
+            lot = self.editLot(lot_id)
+            if lot == None:
+                lot = session.query(Lot).get(lot_id)
+                return flask.redirect(flask.url_for('lot_mod', lot_id=lot.id))
+            else:
+                return flask.redirect(flask.url_for('lot', lot_id=lot.id))
+
+    def createLot(self):
+        if self.validateSubmission() != 0:
+            return None
+        lot = Lot(flask.request.form['name'])
+        session.add(lot)
+        session.commit()
+        return lot
+
+    def editLot(self, lot_id):
+        if self.validateSubmission() != 0:
+            return None
+        lot = session.query(Lot).get(lot_id)
+        lot.name = flask.request.form['name']
+        session.commit()
+        return lot
+
+    def validateSubmission(self):
+        error = 0
+        if flask.request.form['name'] == "":
+            flask.flash("Lot name is required")
+            error = 1
+        return error

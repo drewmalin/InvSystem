@@ -49,6 +49,22 @@ app.add_url_rule('/vendor/edit/<int:vendor_id>',
                  view_func = VendorMod.as_view('vendor_mod'),
                  methods = ['GET', 'POST'])
 
+######      LOT         #######
+app.add_url_rule('/lot/',
+                 defaults = {'lot_id':None},
+                 view_func = LotView.as_view('lot'),
+                 methods = ['GET', 'POST'])
+app.add_url_rule('/lot/<int:lot_id>',
+                 view_func = LotView.as_view('lot'),
+                 methods = ['GET', 'POST'])
+app.add_url_rule('/lot/edit/',
+                 defaults = {'lot_id':None},
+                 view_func = LotMod.as_view('lot_mod'),
+                 methods = ['GET', 'POST'])
+app.add_url_rule('/lot/edit/<int:lot_id>',
+                 view_func = LotMod.as_view('lot_mod'),
+                 methods = ['GET', 'POST'])
+
 ######      REPORT      #######
 app.add_url_rule('/reports/',
                  view_func = ReportView.as_view('reports'),
@@ -77,6 +93,13 @@ app.add_url_rule('/api/vendor/<int:item_id>',
     methods=['POST'])
 app.add_url_rule('/api/item/<int:item_id>/vendors',
     view_func=ItemVendorsAPI.as_view('item_vendors_api'),
+    methods=['GET'])
+app.add_url_rule('/api/lots/',
+    defaults={'lot_id':None},
+    view_func=LotsAPI.as_view('lots_api'),
+    methods=['GET'])
+app.add_url_rule('/api/lots/<int:lot_id>',
+    view_func=LotsAPI.as_view('lots_api'),
     methods=['GET'])
 
 from models import *

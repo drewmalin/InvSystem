@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <!-- Sidebar -->
+                <ul class="nav nav-list">
+                    <li><a href="/">Search</a></li>
+                    <li><a href="/reports/">Reports</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/item/edit/">Enter Item</a></li>
+                    <li><a href="/vendor/edit/">Enter Vendor</a></li>
+                    <li class="active"><a href="#">Enter Lot</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+            <div class="span10">
+                <!-- Main Content -->
+                {% if get_flashed_messages() %}
+                    <div class="alert alert-info" id="infoBar">
+                        {% for message in get_flashed_messages() %}
+                            <div class="flash">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <h3>Enter Lot</h3>
+                {% if lot %}
+                <form action="/lot/edit/{{lot.id}}" method="POST">
+                    <dl>
+                        <dt>Name<font color="red">*</font>:
+                        <dd><input name="name" type="text" size="40" value="{{lot.name}}"/>
+                        <br><br>
+                        <dd><font color="red">*</font> denotes a required field
+                        <br><br>
+                        <dd><input class="btn" name="save" type="submit" value="Save"/>
+                        <a class="btn" href="/lot/{{lot.id}}">Cancel</a>
+                    </dl>
+                </form>
+                {% else %}
+                <form action="/lot/edit/" method="POST">
+                    <dl>
+                        <dt>Name<font color="red">*</font>:
+                        <dd><input name="name" type="text" size="40"/>
+                        <br><br>
+                        <dd><font color="red">*</font> denotes a required field
+                        <br><br>
+                        <dd><input class="btn" name="save" type="submit" value="Save"/>
+                        <a class="btn" href="/">Cancel</a>
+                    </dl>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

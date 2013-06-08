@@ -15,6 +15,22 @@
                     }
                 }
             });
+            $('#modal_lot_dropdown').select2({
+                placeholder: "Select Lot",
+                ajax: {
+                    url: "/api/lots/",
+                    dataType: "json",
+                    data: function(term, page) {
+                        return {q: term}
+                    },
+                    results: function(data, page) {
+                        return {results: data.results};
+                    }
+                }
+            });
+            $('#modal_lot_status_dropdown').select2({
+                placeholder: "Select Status"
+            });
         });
     </script>
     <div class="container-fluid">
@@ -24,8 +40,10 @@
                 <ul class="nav nav-list">
                     <li><a href="/">Search</a></li>
                     <li><a href="/reports/">Reports</a></li>
+                    <li class="divider"></li>
                     <li><a href="/item/edit/">Enter Item</a></li>
                     <li><a href="/vendor/edit/">Enter Vendor</a></li>
+                    <li><a href="/lot/edit/">Enter Lot</a></li>
                     <li class="divider"></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
@@ -57,7 +75,7 @@
                                 <div class="modal-body">
                                     <dl>
                                         <dt> New Quantity:
-                                        <dd> <input name="quantity" type="number" size="40">
+                                        <dd> <input name="quantity" type="number" size="40" value="{{item.snapshots[0].quantity_on_hand}}"/>
                                     </dl>
                                 </div>
                                 <div class="modal-footer">
@@ -85,6 +103,10 @@
                             Price: ${{item.snapshots[0].primary_vendor_p}}
                             <br> 
                             QTY Purchased: {{item.snapshots[0].primary_vendor_q}}
+                            <br><br>
+                            Lot: {{item.snapshots[0].lot.name}}
+                            <br>
+                            Status: {{item.snapshots[0].lot.state}}
                         </div>
                         <div class = "span3">
                             Secondary Vendor: <a href="/vendor/{{item.snapshots[0].secondary_vendor.id}}">{{item.snapshots[0].secondary_vendor.name}}</a>
@@ -111,6 +133,14 @@
                                         <dd> <input name="vendor" id="modal_vendor_dropdown" style="width: 300px" />
                                         <dt> Select Quantity:
                                         <dd> <input name="quantity" type="number" size="40" />
+                                        <dt> Select Lot:
+                                        <dd> <input name="lot" id="modal_lot_dropdown" style="width: 300px"/>
+                                        <dt> Update Lot Status:
+                                        <dd><select name="lot_list" id="modal_lot_status_dropdown" style="width: 300px">
+                                            <option value="Quarantine">Quarantine</option>
+                                            <option value="Something else...">Something else...</option>
+                                            <option value="Closed?">Closed?</option> 
+                                        </select>
                                     </dl>
                                 </div>
                                 <div class="modal-footer">

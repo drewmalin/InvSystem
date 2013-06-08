@@ -7,6 +7,7 @@ import json
 import csv
 from Tkinter        import Tk
 from tkFileDialog   import askopenfilename
+from flask          import Response
 
 class VendorsAPI(flask.views.MethodView):
     @crossdomain(origin='*')
@@ -44,8 +45,14 @@ class VendorAPI(flask.views.MethodView):
 
         item = session.query(Item).get(item_id)
         vendor = session.query(Vendor).get(flask.request.form['vendor'])
+        lot = session.query(Lot).get(flask.request.form['lot'])
         itemSnapshot = getNextSnapshot(item)
 
+        # Lot
+        lot.state = flask.request.form['lot_list']
+        itemSnapshot.lot = lot
+
+        # Vendors
         if int(flask.request.form['vendor']) == int(item.snapshots[0].primary_vendor.id):
             itemSnapshot.primary_vendor_q = flask.request.form['quantity']
         else:
@@ -116,22 +123,50 @@ class ItemVendorsAPI(flask.views.MethodView):
             vendor_list.append(s_vendor_dict) 
         return flask.jsonify(results=vendor_list)
 
+class LotsAPI(flask.views.MethodView):
+    @crossdomain(origin='*')
+    def get(self, lot_id):
+        if lot_id == None:
+            lot_filter = request.args.get("q")
+            if not lot_filter:
+                lots = session.query(Lot)
+            else:
+                lots = session.query(Lot).filter(Lot.name.contains(lot_filter))
+            lot_list = []
+            for lot in lots:
+                lot_dict = {}
+                lot_dict["id"] = str(lot.id)
+                lot_dict["text"] = lot.name
+                lot_list.append(lot_dict)
+            return flask.jsonify(results=lot_list)
+        else:
+            lot = session.query(Lot).get(lot_id)
+            lot_list = []
+            lot_dict = {}
+            lot_dict["id"] = str(lot.id)
+            lot_dict["text"] = lot.name
+            lot_list.append(lot_dict)
+            return flask.jsonify(results=lot_list)
+
 class ReportAPI(flask.views.MethodView):
     @crossdomain(origin='*')
     def get(self, report_id):
         item_list = [] 
+        filename = "test.csv"
         if report_id == 0:
             # Reorder Report
             items = session.query(Item)
             items = [x for x in items if x.snapshots[0].quantity_on_hand <= x.snapshots[0].reorder_point]
             item_list = items
+            filename = "reorder_report.csv"
+        
         elif report_id == 1:
             # Item Report
             items = session.query(Item)
             item_list = items
+            filename = "item_report.csv"
 
         if flask.request.args["export"] and flask.request.args["export"] == "t":
-            filename = "test.csv"
             f = csv.writer(open('csv/'+filename, 'wb+'))
             f.writerow(['Name', 'Catalog Number', 'Quantity On Hand', 'Reorder Point', 'Primary Vendor', 'Secondary Vendor'])
             for item in item_list:
@@ -145,7 +180,7 @@ class ReportAPI(flask.views.MethodView):
                     item.snapshots[0].reorder_quantity,
                     item.snapshots[0].primary_vendor.name,
                     svn])
-        
+            return open('csv/'+filename, 'rb+')
         return flask.render_template('reports.html', items=items)
 
 def getNextSnapshot(item):

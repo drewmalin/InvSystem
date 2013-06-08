@@ -7,13 +7,15 @@
                 <ul class="nav nav-list">
                     <li><a href="/">Search</a></li>
                     <li class="active"><a href="#">Reports</a></li>
+                    <li class="divider"></li>
                     <li><a href="/item/edit/">Enter Item</a></li>
                     <li><a href="/vendor/edit/">Enter Vendor</a></li>
+                    <li><a href="/lot/edit/">Enter Lot</a><li>
                     <li class="divider"></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
             </div>
-        <div class="span10">
+            <div class="span10">
                 <!-- Main content -->
                 <h3>Reports</h3>
                 <hr>
@@ -21,10 +23,14 @@
                     <dt>Reorder Report  
                     <a class = "btn" href = "/api/reports/0?export=f">RUN</a>
                     <a class = "btn" href = "/api/reports/0?export=t">EXPORT</a>
+                    <a href="/csv/reorder_report.csv">Reorder Report</a>
                     <br><br>
                     <dt>Item Report
                     <a class = "btn" href = "/api/reports/1?export=f">RUN</a>
                     <a class = "btn" href = "/api/reports/1?export=t">EXPORT</a>
+                    <form method="GET" action="csv/file.doc">
+                    <button type="submit">Download</button>
+                    </form>
                 </dl>
             <hr>
             {% if items %}

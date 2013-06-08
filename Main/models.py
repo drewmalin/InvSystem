@@ -26,17 +26,18 @@ class ItemSnapshot(Base):
     quantity_on_hand 	= Column(Integer)
     reorder_quantity	= Column(Integer)
     reorder_point		= Column(Integer)
+    lot_id              = Column(Integer, ForeignKey('Lot.id'))
     primary_vendor_id   = Column(Integer, ForeignKey('Vendor.id'))
     secondary_vendor_id = Column(Integer, ForeignKey('Vendor.id'))
     primary_vendor_q    = Column(Integer)
     secondary_vendor_q  = Column(Integer)
     primary_vendor_p    = Column(Integer)
     secondary_vendor_p  = Column(Integer)
-
+    
     # Relatioships
     primary_vendor      = relationship('Vendor', primaryjoin='Vendor.id==ItemSnapshot.primary_vendor_id', backref='snapshots_as_primary')
     secondary_vendor    = relationship('Vendor', primaryjoin='Vendor.id==ItemSnapshot.secondary_vendor_id', backref='snapshots_as_secondary')
-    offer 				= relationship('Offer', backref='item')
+    lot 				= relationship('Lot', backref='snapshots')
     
     def __init__(self, name, num, quantity_on_hand, reorder_quantity, reorder_point):
         self.name 				= name
@@ -54,29 +55,16 @@ class Vendor(Base):
     name 		    = Column(String(100))
     
     def __init__(self, name):
-        self.name 		= name
+        self.name = name
 
-class Offer(Base):
-	# Table
-    __tablename__   = 'Offer'
-	
-    # Attributes
-    id 			    = Column(Integer, primary_key = True)
-    item_snapshot_id = Column(Integer, ForeignKey('ItemSnapshot.id'))
-    quantity 	    = Column(Integer)
-    price 		    = Column(Float)
-    
-    def __int__(self, quantity, price):
-        self.quantity 	= quantity
-        self.price 		= price
-
-class UOM(Base):
+class Lot(Base):
     # Table
-    __tablename__ = 'UOM'
-    
+    __tablename__   = 'Lot'
+
     # Attributes
-    id          = Column(Integer, primary_key = True)
-    name		= Column(String(100))
-    
+    id              = Column(Integer, primary_key = True)
+    state           = Column(String(100))
+    name            = Column(String(100))
+
     def __init__(self, name):
-        self.name 		= name
+        self.name = name
