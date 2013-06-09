@@ -45,6 +45,11 @@
                     <input name="search_name" type="text" size="100" />
                     <br><br>
                     <div class = "span2">
+                        ID #: 
+                    </div>
+                    <input name = "search_id" type = "number" />
+                    <br><br>
+                    <div class = "span2">
                         Catalog Number:
                     </div>
                     <input name="search_catalog_num" type = "text" size = "100" />
@@ -67,21 +72,21 @@
                 <hr>
                 <table class = "table table-hover table-bordered table-condensed">
                     <tr>
+                        <th>ID #</th>
                         <th>Name</th>
                         <th>Catalog Number</th>
                         <th>Quantity On Hand</th>
-                        <th>Reorder Point</th>
-                        <th>Reorder Quantity</th>
                         <th>Primary Vendor</th>
+                        <th>Primary Vendor Price</th>
                     </tr>
                     {% for item in items %}
                     <tr>
+                        <td>#</td>
                         <td><a href="/item/{{item.id}}">{{ item.snapshots[0].name }}</a></td>
                         <td>{{ item.snapshots[0].num }}</td>
                         <td>{{ item.snapshots[0].quantity_on_hand }}</td>
-                        <td>{{ item.snapshots[0].reorder_point}}</td>
-                        <td>{{ item.snapshots[0].reorder_quantity}}</td>
                         <td><a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{ item.snapshots[0].primary_vendor.name }}</a></td>
+                        <td>{{item.snapshots[0].primary_vendor_p}}</td>
                     </tr>
                     {% endfor %}
                 </table>

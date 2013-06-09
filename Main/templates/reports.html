@@ -42,7 +42,7 @@
                     <th>Reorder Point</th>
                     <th>Reorder Quantity</th>
                     <th>Primary Vendor</th>
-                    <th>Secondary Vendor</th>
+                    <th>Primary Vendor Price</th>
                 </tr>
                 {% for item in items %}
                 <tr>
@@ -52,7 +52,7 @@
                     <td>{{ item.snapshots[0].reorder_point}}</td>
                     <td>{{ item.snapshots[0].reorder_quantity}}</td>
                     <td>{{ item.snapshots[0].primary_vendor.name }}</td>
-                    <td>{{ item.snapshots[0].secondary_vendor.name }}<a>
+                    <td>{{item.snapshots[0].primary_vendor_p}}<a>
                 </tr>
                 {% endfor %}
             </table>

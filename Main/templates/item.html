@@ -48,14 +48,21 @@
                     <li><a href="#">Settings</a></li>
                 </ul>
             </div>
-            <div class="span10">
                 <!-- Main content -->
-                {% if item %}                    
+                {% if item %} 
+                <div class = "span3">                   
                     <h2>{{item.snapshots[0].name}}</h2>
+                </div>
+                <div class = "span6">
+                    <br>
+                    <h4>Catalog Number: {{item.snapshots[0].num}}</h4>
+                </div>
+                <div class="span10">    
+                    <hr>
                     <div class = "row">
                         <div class = "span5">
-                            <div class = "mycontent-left">
-                            </div>
+                            <br>
+                            ID #: 
                             <br>
                             Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
                             <br>
@@ -63,10 +70,10 @@
                             <br>
                             <h5>Total Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}</h5>
             <!-- Button to trigger Modal -->
-                            <a href = "#update_quantity" role="button" class="btn" data-toggle="modal">Update Quantity</a>
-                        </div>
+                            <a href = "#update_quantity" role="button" class="btn" data-toggle="modal">Update</a>
+                        </div>        
                         <div class = "span3">
-                            <h4>Catalog Number: {{item.snapshots[0].num}}</h4>
+                            <br>
                             Primary Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
                             <br>
                              Price: ${{item.snapshots[0].primary_vendor_p}}
@@ -75,6 +82,7 @@
                             <br>
                             Price: ${{item.snapshots[0].secondary_vendor_p}}
                             <br>
+        <!-- Button to trigger Modal -->
                             <a href = "#new_purchase" role="button" class="btn" data-toggle="modal">New Receipt</a>
                         </div>
                         <div class = "span2">
@@ -86,42 +94,37 @@
                                     <a class="close" data-dismiss="modal">x</a>
                                     <h3>Change Quantity</h3>
                                 </div>
-                                <div class="modal-body">
-                                    <dl>
-                                        <dt> New Quantity:
-                                        <dd> <input name="quantity" type="number" size="40" value="{{item.snapshots[0].quantity_on_hand}}"/>
-                                    </dl>
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-                                    <input type="submit" value="Save" class="btn btn-primary" />
-                                </div>
+                        <div class="modal-body">
+                            <dl>
+                            <table class = "table table-hover table-bordered table-condensed">
+                            <tr>
+                                <th> Lot </th>
+                                <th> Exp. Date </th>
+                                <th> QTY </th>
+                                <th> Status </th>
+                            </tr>
+                            <tr>
+                                <td>{{ item.snapshots[0].lot }}</td>
+                                <td>#</td>
+                                <td> <input name="quantity" type="number" size="40" style = "width: 150px"value={{item.snapshots[0].quantity_on_hand}} />
+                                <td><select name="lot_list" id="modal_lot_status_dropdown" style="width: 150px">
+                                        <option value="Quarantine">Quarantine</option>
+                                        <option value="Something else...">Released</option>
+                                        <option value="Closed?">Consumed</option> 
+                                    </select>
+                            </table>
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
                             </form>
                         </div>
          <!-- End Modal -->
                     </div>
-                    <div class = "row">
-                        <div class = "span5">
-                        </div>
-                        <div class = "span5">
-                        </div>
-                    </div>
-                    <hr>
                     <br><br>
-                    <div class = "row">
-                        <div class = "span5">
-                    <br><br>
-                            Lot: {{item.snapshots[0].lot.name}}
-                            <br>
-                            Status: {{item.snapshots[0].lot.state}}
-                        </div>
-                        <div class = "span3">
-                        </div>
-                        <div class = "span2">
-                        <!-- Button to trigger Modal -->
-                        
-                        </div> 
-                        </div>
+                </div>
                 <!-- Purchase Modal -->
                         <div id="new_purchase" class="modal hide fade">
                             <form id="modal-form" action="/api/vendor/{{item.id}}" method="POST">
@@ -140,8 +143,8 @@
                                         <dt> Update Lot Status:
                                         <dd><select name="lot_list" id="modal_lot_status_dropdown" style="width: 300px">
                                             <option value="Quarantine">Quarantine</option>
-                                            <option value="Something else...">Something else...</option>
-                                            <option value="Closed?">Closed?</option> 
+                                            <option value="Something else...">Released</option>
+                                            <option value="Closed?">Consumed</option> 
                                         </select>
                                     </dl>
                                 </div>
@@ -152,7 +155,6 @@
                             </form>
                         </div>
             <!-- End Modal -->
-                        <br><br>
                         <div id="quantity_chart" style="min-width: 400px; margin: 0 auto marginBottom: 120" iid="{{item.id}}"></div>
                         <br><br>
                         <a class = "btn" href="/item/edit/{{item.id}}">Edit</a>

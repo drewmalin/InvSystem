@@ -106,6 +106,7 @@
                 {% else %}
                 <h3>Enter New Item</h3>
                     <form action="/item/edit/" method="POST">
+                        <div class = "span5">
                         <dl>
                             <dt> Name<font color="red">*</font>: 
                             <dd> <input name="name" type="text" size="40" />
@@ -130,6 +131,14 @@
                             <br><br>
                             <dd><input class = "btn" name="save" type="submit" value="Save" />
                             <a class = "btn" href="/">Cancel</a>
+                        </div>
+                        <div class = "span6">
+                            <dt> Category<font color = "red">*</font>:
+                            <dd> <input name = "category" id = "category_dropdown" type = "width: 300px"/>
+                            <!--Reagents, Controls, Supplies -->
+                            <dt> Used for<font color = "red">*</font>:
+                            <dd> <input name = "use" id = "use_dropdown" type = "width: 300px"/>
+                        </div>        
                         </dl>
                     </form>
                 {% endif %}

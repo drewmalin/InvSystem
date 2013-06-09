@@ -30,6 +30,8 @@
             <th>View Detail</th>
             <th>Name</th>
             <th>Quantity On Hand</th>
+            <th>Lot</th>
+            <th>Status</th>
             <th>Primary Vendor</th>
             <th>Secondary Vendor</th>
             <th>Timestamp</th>
@@ -40,6 +42,8 @@
             <td><a href = "#view_detail" role="button" class="btn" data-toggle="modal">View Detail</a></td>
             <td>{{ snapshot.name }}</td>
             <td>{{ snapshot.quantity_on_hand }}</td>
+            <td>{{item.snapshots[0].lot.name}}</td>
+            <td>{{item.snapshots[0].lot.state}}</td>
             <td>{{ snapshot.primary_vendor.name }}</td>
             <td>{{ snapshot.secondary_vendor.name}}</td>
             <td>{{ snapshot.timestamp }}</td>
