@@ -56,16 +56,30 @@
                         <div class = "span5">
                             <div class = "mycontent-left">
                             </div>
-                            <h5>Catalog Number: {{item.snapshots[0].num}}</h5>
+                            <br>
+                            Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
+                            <br>
+                            Reorder Point: {{item.snapshots[0].reorder_point}}
+                            <br>
+                            <h5>Total Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}</h5>
+            <!-- Button to trigger Modal -->
+                            <a href = "#update_quantity" role="button" class="btn" data-toggle="modal">Update Quantity</a>
                         </div>
                         <div class = "span3">
-                            <h5>Total Quantity on Hand: {{item.snapshots[0].quantity_on_hand}}</h5>
+                            <h4>Catalog Number: {{item.snapshots[0].num}}</h4>
+                            Primary Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
+                            <br>
+                             Price: ${{item.snapshots[0].primary_vendor_p}}
+                            <br> 
+                            Secondary Vendor: <a href="/vendor/{{item.snapshots[0].secondary_vendor.id}}">{{item.snapshots[0].secondary_vendor.name}}</a>
+                            <br>
+                            Price: ${{item.snapshots[0].secondary_vendor_p}}
+                            <br>
+                            <a href = "#new_purchase" role="button" class="btn" data-toggle="modal">New Receipt</a>
                         </div>
                         <div class = "span2">
-                            <!-- Button to trigger Modal -->
-                            <a href = "#update_quantity" role="button" class="btn" data-toggle="modal">Update Quantity</a>
                         </div> 
-                        <!--Update Quantity Modal -->
+        <!--Update Quantity Modal -->
                         <div id="update_quantity" class="modal hide fade">
                             <form id="modal-form" action="/api/quantity/{{item.id}}" method="POST">
                                 <div class="modal-header">
@@ -84,43 +98,31 @@
                                 </div>
                             </form>
                         </div>
-                        <!-- End Modal -->
+         <!-- End Modal -->
                     </div>
                     <div class = "row">
                         <div class = "span5">
-                            Reorder Point: {{item.snapshots[0].reorder_point}}
                         </div>
                         <div class = "span5">
-                            Reorder Quantity: {{item.snapshots[0].reorder_quantity}}
                         </div>
                     </div>
                     <hr>
                     <br><br>
                     <div class = "row">
                         <div class = "span5">
-                            Primary Vendor: <a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{item.snapshots[0].primary_vendor.name}}</a>
-                            <br>
-                            Price: ${{item.snapshots[0].primary_vendor_p}}
-                            <br> 
-                            QTY Purchased: {{item.snapshots[0].primary_vendor_q}}
-                            <br><br>
+                    <br><br>
                             Lot: {{item.snapshots[0].lot.name}}
                             <br>
                             Status: {{item.snapshots[0].lot.state}}
                         </div>
                         <div class = "span3">
-                            Secondary Vendor: <a href="/vendor/{{item.snapshots[0].secondary_vendor.id}}">{{item.snapshots[0].secondary_vendor.name}}</a>
-                            <br>
-                            Price: ${{item.snapshots[0].secondary_vendor_p}}
-                            <br>
-                            QTY Purchased: {{item.snapshots[0].secondary_vendor_q}}
                         </div>
                         <div class = "span2">
                         <!-- Button to trigger Modal -->
-                        <a href = "#new_purchase" role="button" class="btn" data-toggle="modal">New Purchase</a>
+                        
                         </div> 
                         </div>
-                        <!-- Purchase Modal -->
+                <!-- Purchase Modal -->
                         <div id="new_purchase" class="modal hide fade">
                             <form id="modal-form" action="/api/vendor/{{item.id}}" method="POST">
                                 <div class="modal-header">
@@ -149,7 +151,7 @@
                                 </div>
                             </form>
                         </div>
-                        <!-- End Modal -->
+            <!-- End Modal -->
                         <br><br>
                         <div id="quantity_chart" style="min-width: 400px; margin: 0 auto marginBottom: 120" iid="{{item.id}}"></div>
                         <br><br>

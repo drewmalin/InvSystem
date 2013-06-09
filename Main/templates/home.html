@@ -73,7 +73,6 @@
                         <th>Reorder Point</th>
                         <th>Reorder Quantity</th>
                         <th>Primary Vendor</th>
-                        <th>Secondary Vendor</th>
                     </tr>
                     {% for item in items %}
                     <tr>
@@ -83,7 +82,6 @@
                         <td>{{ item.snapshots[0].reorder_point}}</td>
                         <td>{{ item.snapshots[0].reorder_quantity}}</td>
                         <td><a href="/vendor/{{item.snapshots[0].primary_vendor.id}}">{{ item.snapshots[0].primary_vendor.name }}</a></td>
-                        <td><a href="/vendor/{{item.snapshots[0].secondary_vendor.id}}">{{ item.snapshots[0].secondary_vendor.name }}<a>
                     </tr>
                     {% endfor %}
                 </table>
